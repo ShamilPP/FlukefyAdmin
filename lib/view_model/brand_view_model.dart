@@ -12,11 +12,10 @@ class BrandsViewModel extends ChangeNotifier {
 
   Status get brandsStatus => _brandsStatus;
 
-  void loadBrands() {
-    FirebaseService.getAllCategory().then((result) {
-      _brands = result;
-      setBrandsStatus(Status.success);
-    });
+  Future loadBrands() async {
+    _brands = await FirebaseService.getAllCategory();
+
+    setBrandsStatus(Status.success);
   }
 
   void setBrandsStatus(Status status) {

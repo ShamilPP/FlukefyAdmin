@@ -1,3 +1,4 @@
+import 'package:flukefy_admin/model/brand_model.dart';
 import 'package:flukefy_admin/model/product_model.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/brand_selector.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/image_selector.dart';
@@ -37,8 +38,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
 
   @override
   void dispose() {
-    ImageSelector.imagesNotifier.value=[];
-    BrandSelector.brandNotifier.value=null;
+    ImageSelector.imagesNotifier.value = [];
+    BrandSelector.brandNotifier.value = null;
     super.dispose();
   }
 
@@ -51,8 +52,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
       priceController.text = widget.product!.price.toString();
       discountController.text = widget.product!.discount.toString();
       updateDiscountPrice(widget.product!.price.toString());
-      BrandSelector.brandNotifier.value = widget.product!.category;
-      ImageSelector.imagesNotifier.value=widget.product!.images;
+      BrandSelector.brandNotifier.value = widget.product!.brand;
+      ImageSelector.imagesNotifier.value = widget.product!.images;
     }
     super.initState();
   }
@@ -89,12 +90,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: BlackButton(
-                title: 'Upload',
+                title: widget.isUpdateProduct ? 'Update' : 'Upload',
                 fontSize: 15,
                 onPressed: () async {
                   String name = nameController.text;
                   String desc = descController.text;
-                  String? category = BrandSelector.brandNotifier.value;
+                  BrandModel? brand = BrandSelector.brandNotifier.value;
                   double? rating = double.tryParse(ratingController.text);
                   int? price = int.tryParse(priceController.text);
                   int? discount = int.tryParse(discountController.text);
@@ -109,7 +110,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   }
                   if (name != '' &&
                       desc != '' &&
-                      category != null &&
+                      brand != null &&
                       rating != 0 &&
                       price != 0 &&
                       images.isNotEmpty) {
@@ -117,7 +118,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       docId: widget.isUpdateProduct ? widget.product!.docId : null,
                       name: name,
                       description: desc,
-                      category: category,
+                      brand: brand,
                       images: images,
                       rating: rating,
                       price: price,

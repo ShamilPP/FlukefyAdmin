@@ -2,6 +2,9 @@ import 'package:flukefy_admin/model/product_model.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flukefy_admin/utils/enums/status.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'brand_view_model.dart';
 
 class ProductsViewModel extends ChangeNotifier {
   List<ProductModel> _products = [];
@@ -11,8 +14,10 @@ class ProductsViewModel extends ChangeNotifier {
 
   Status get productsStatus => _productsStatus;
 
-  void loadProducts() {
-    FirebaseService.getAllProducts().then((result) {
+  void loadProducts(BuildContext ctx) async {
+    var brandProvider = Provider.of<BrandsViewModel>(ctx, listen: false);
+    await brandProvider.loadBrands();
+    FirebaseService.getAllProducts(brandProvider.brands).then((result) {
       _products = result;
       setProductsStatus(Status.success);
     });
@@ -76,7 +81,7 @@ class ProductsViewModel extends ChangeNotifier {
     } else {
       await FirebaseService.uploadProduct(product);
     }
-    loadProducts();
+    loadProducts(context);
 
     // Close Dialog
     Navigator.pop(context);

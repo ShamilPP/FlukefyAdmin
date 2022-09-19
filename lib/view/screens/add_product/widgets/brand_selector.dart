@@ -1,16 +1,16 @@
+import 'package:flukefy_admin/model/brand_model.dart';
 import 'package:flukefy_admin/view_model/brand_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class BrandSelector extends StatelessWidget {
   const BrandSelector({Key? key}) : super(key: key);
-  static ValueNotifier<String?> brandNotifier = ValueNotifier(null);
+  static ValueNotifier<BrandModel?> brandNotifier = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
-    var brandModels = Provider.of<BrandsViewModel>(context, listen: false).brands;
-    List<String> brands = brandModels.map((brand) => brand.name).toList();
-    if (!brands.contains(brandNotifier.value)) brandNotifier.value = null;
+    var brands = Provider.of<BrandsViewModel>(context, listen: false).brands;
+    // if (!brands.contains(brandNotifier.value)) brandNotifier.value = null;
 
     return Container(
       margin: const EdgeInsets.all(10),
@@ -22,16 +22,16 @@ class BrandSelector extends StatelessWidget {
       child: ButtonTheme(
         alignedDropdown: true,
         child: DropdownButtonHideUnderline(
-          child: ValueListenableBuilder<String?>(
+          child: ValueListenableBuilder<BrandModel?>(
               valueListenable: brandNotifier,
-              builder: (ctx, value, child) {
-                return DropdownButton<String>(
-                  value: value,
-                  hint: const Text('Select category'),
+              builder: (ctx, notifierValue, child) {
+                return DropdownButton<BrandModel>(
+                  value: notifierValue,
+                  hint: const Text('Select brand'),
                   items: brands.map((brand) {
-                    return DropdownMenuItem<String>(
+                    return DropdownMenuItem<BrandModel>(
                       value: brand,
-                      child: Text(brand),
+                      child: Text(brand.name),
                     );
                   }).toList(),
                   onChanged: (newValue) {

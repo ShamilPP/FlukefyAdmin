@@ -1,5 +1,4 @@
 import 'package:flukefy_admin/view/screens/home/home_screen.dart';
-import 'package:flukefy_admin/view_model/brand_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -69,7 +68,6 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
     });
 
-    Provider.of<ProductsViewModel>(context, listen: false).loadProducts();
-    Provider.of<BrandsViewModel>(context, listen: false).loadBrands();
+    Provider.of<ProductsViewModel>(context, listen: false).loadProducts(context);
   }
 }

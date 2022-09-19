@@ -7,18 +7,20 @@ import 'package:flukefy_admin/model/brand_model.dart';
 import '../model/product_model.dart';
 
 class FirebaseService {
-  static Future<List<ProductModel>> getAllProducts() async {
+  static Future<List<ProductModel>> getAllProducts(List<BrandModel> brands) async {
     List<ProductModel> products = [];
 
     var collection = FirebaseFirestore.instance.collection('products');
     var allDocs = await collection.get();
     for (var product in allDocs.docs) {
+      int index = brands.indexWhere((element) => element.docId == product.get('category'));
+
       products.add(ProductModel(
         docId: product.id,
         name: product.get('name'),
         images: List<String>.from(product.get('images')),
         description: product.get('description'),
-        category: product.get('category'),
+        brand: index == -1 ? null : brands[index],
         rating: product.get('rating'),
         price: product.get('price'),
         discount: product.get('discount'),
@@ -43,7 +45,7 @@ class FirebaseService {
       'images': imagesUrl,
       'name': product.name,
       'description': product.description,
-      'category': product.category,
+      'category': product.brand!.docId,
       'rating': product.rating,
       'price': product.price,
       'discount': product.discount,
@@ -76,7 +78,7 @@ class FirebaseService {
     await products.doc(product.docId).update({
       'name': product.name,
       'description': product.description,
-      'category': product.category,
+      'category': product.brand!.docId,
       'rating': product.rating,
       'price': product.price,
       'discount': product.discount,
@@ -88,6 +90,7 @@ class FirebaseService {
     var category = FirebaseFirestore.instance.collection('category');
     await category.add({
       'name': brand.name,
+      'createdTime': DateTime.now(),
     });
     return true;
   }
