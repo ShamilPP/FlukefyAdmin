@@ -14,7 +14,6 @@ class BrandsViewModel extends ChangeNotifier {
 
   Future loadBrands() async {
     _brands = await FirebaseService.getAllCategory();
-
     setBrandsStatus(Status.success);
   }
 

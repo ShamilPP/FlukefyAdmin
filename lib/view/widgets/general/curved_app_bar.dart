@@ -58,9 +58,13 @@ class CurvedAppBar extends StatelessWidget with PreferredSizeWidget {
               Positioned.fill(
                 child: Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    title,
-                    style: const TextStyle(color: Colors.white, fontSize: 18),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: Text(
+                      title,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(color: Colors.white, fontSize: 18),
+                    ),
                   ),
                 ),
               ),

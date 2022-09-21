@@ -16,7 +16,10 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(product.name),
+      title: Text(
+        product.name,
+        overflow: TextOverflow.ellipsis,
+      ),
       subtitle: RichText(
         text: TextSpan(
           children: <TextSpan>[

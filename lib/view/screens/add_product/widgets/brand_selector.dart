@@ -10,7 +10,6 @@ class BrandSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var brands = Provider.of<BrandsViewModel>(context, listen: false).brands;
-    // if (!brands.contains(brandNotifier.value)) brandNotifier.value = null;
 
     return Container(
       margin: const EdgeInsets.all(10),

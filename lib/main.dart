@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => BrandsViewModel()),
       ],
       child: MaterialApp(
+        title: 'Flukefy admin',
         theme: ThemeData(
           primarySwatch: primarySwatch,
           fontFamily: 'Averta',

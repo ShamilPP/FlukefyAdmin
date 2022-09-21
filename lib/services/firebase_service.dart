@@ -13,6 +13,7 @@ class FirebaseService {
     var collection = FirebaseFirestore.instance.collection('products');
     var allDocs = await collection.get();
     for (var product in allDocs.docs) {
+      // find brand
       int index = brands.indexWhere((element) => element.docId == product.get('category'));
 
       products.add(ProductModel(

@@ -1,5 +1,6 @@
 import 'package:flukefy_admin/model/product_model.dart';
 import 'package:flukefy_admin/view/screens/product/widgets/image_slider.dart';
+import 'package:flukefy_admin/view/screens/product/widgets/more_details.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -107,19 +108,10 @@ class ProductScreen extends StatelessWidget {
                     ],
                   ),
 
-                  const SizedBox(height: 10),
-                  const Divider(thickness: 1),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 40),
 
                   // More details
-                  const Text('More details',
-                      style: TextStyle(fontSize: 20, fontFamily: 'roboto', fontWeight: FontWeight.w400)),
-                  const SizedBox(height: 20),
-
-                  Text('Brand : ${product.brand == null ? 'No Brand' : product.brand!.name}',
-                      style: const TextStyle(fontSize: 15)),
-                  const SizedBox(height: 5),
-                  Text('Description : ${product.description}', style: const TextStyle(fontSize: 15)),
+                  MoreDetails(product: product),
                 ],
               ),
             ),

@@ -51,13 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (ctx, provider, child) {
           List<ProductModel> products = provider.products;
           if (provider.productsStatus == Status.success) {
-            return ListView.separated(
-              itemCount: products.length,
-              separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
-              itemBuilder: (buildContext, index) {
-                return ProductTile(product: products[index]);
-              },
-            );
+            return body(products);
           } else if (provider.productsStatus == Status.loading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -77,6 +71,16 @@ class _HomeScreenState extends State<HomeScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (_) => const AddProductScreen()));
         },
       ),
+    );
+  }
+
+  Widget body(List<ProductModel> products) {
+    return ListView.separated(
+      itemCount: products.length,
+      separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
+      itemBuilder: (buildContext, index) {
+        return ProductTile(product: products[index]);
+      },
     );
   }
 }
