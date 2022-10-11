@@ -1,17 +1,17 @@
-import 'package:flukefy_admin/model/brand_model.dart';
-import 'package:flukefy_admin/model/product_model.dart';
+import 'package:flukefy_admin/model/brand.dart';
+import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/brand_selector.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/image_selector.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flukefy_admin/view/widgets/text_field/outlined_text_field.dart';
-import 'package:flukefy_admin/view_model/products_view_model.dart';
+import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AddProductScreen extends StatefulWidget {
   final bool isUpdateProduct;
-  final ProductModel? product;
+  final Product? product;
 
   const AddProductScreen({
     Key? key,
@@ -95,7 +95,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 onPressed: () async {
                   String name = nameController.text;
                   String desc = descController.text;
-                  BrandModel? brand = BrandSelector.brandNotifier.value;
+                  Brand? brand = BrandSelector.brandNotifier.value;
                   double? rating = double.tryParse(ratingController.text);
                   int? price = int.tryParse(priceController.text);
                   int? discount = int.tryParse(discountController.text);
@@ -114,7 +114,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       rating != 0 &&
                       price != 0 &&
                       images.isNotEmpty) {
-                    ProductModel product = ProductModel(
+                    Product product = Product(
                       docId: widget.isUpdateProduct ? widget.product!.docId : null,
                       name: name,
                       description: desc,
@@ -125,7 +125,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       discount: discount,
                     );
 
-                    Provider.of<ProductsViewModel>(context, listen: false)
+                    Provider.of<ProductsProvider>(context, listen: false)
                         .uploadProduct(context, product, widget.isUpdateProduct);
                   } else {
                     showDialog(

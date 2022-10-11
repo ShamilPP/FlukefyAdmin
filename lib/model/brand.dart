@@ -1,8 +1,8 @@
-class BrandModel {
+class Brand {
   final String? docId;
   final String name;
 
-  BrandModel({
+  Brand({
     this.docId,
     required this.name,
   });

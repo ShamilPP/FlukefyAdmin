@@ -1,9 +1,9 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:flukefy_admin/model/product_model.dart';
+import 'package:flukefy_admin/model/product.dart';
 import 'package:flutter/material.dart';
 
 class ImageSlider extends StatefulWidget {
-  final ProductModel product;
+  final Product product;
 
   const ImageSlider({required this.product, Key? key}) : super(key: key);
 

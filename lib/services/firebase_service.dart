@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flukefy_admin/model/brand_model.dart';
+import 'package:flukefy_admin/model/brand.dart';
 
-import '../model/product_model.dart';
+import '../model/product.dart';
 
 class FirebaseService {
-  static Future<List<ProductModel>> getAllProducts(List<BrandModel> brands) async {
-    List<ProductModel> products = [];
+  static Future<List<Product>> getAllProducts(List<Brand> brands) async {
+    List<Product> products = [];
 
     var collection = FirebaseFirestore.instance.collection('products');
     var allDocs = await collection.get();
@@ -16,7 +16,7 @@ class FirebaseService {
       // find brand
       int index = brands.indexWhere((element) => element.docId == product.get('category'));
 
-      products.add(ProductModel(
+      products.add(Product(
         docId: product.id,
         name: product.get('name'),
         images: List<String>.from(product.get('images')),
@@ -31,7 +31,7 @@ class FirebaseService {
     return products;
   }
 
-  static Future<bool> uploadProduct(ProductModel product) async {
+  static Future<bool> uploadProduct(Product product) async {
     List<String> imagesUrl = [];
     // Images Upload
     for (int i = 0; i < product.images.length; i++) {
@@ -65,7 +65,7 @@ class FirebaseService {
     return snapshot.ref.getDownloadURL();
   }
 
-  static Future<bool> removeProduct(ProductModel product) async {
+  static Future<bool> removeProduct(Product product) async {
     for (int i = 0; i < product.images.length; i++) {
       await FirebaseStorage.instance.refFromURL(product.images[i]).delete();
     }
@@ -74,7 +74,7 @@ class FirebaseService {
     return true;
   }
 
-  static Future<bool> updateProduct(ProductModel product) async {
+  static Future<bool> updateProduct(Product product) async {
     var products = FirebaseFirestore.instance.collection('products');
     await products.doc(product.docId).update({
       'name': product.name,
@@ -87,7 +87,7 @@ class FirebaseService {
     return true;
   }
 
-  static Future<bool> createCategory(BrandModel brand) async {
+  static Future<bool> createCategory(Brand brand) async {
     var category = FirebaseFirestore.instance.collection('category');
     await category.add({
       'name': brand.name,
@@ -96,13 +96,13 @@ class FirebaseService {
     return true;
   }
 
-  static Future<List<BrandModel>> getAllCategory() async {
-    List<BrandModel> categorys = [];
+  static Future<List<Brand>> getAllCategory() async {
+    List<Brand> categorys = [];
 
     var collection = FirebaseFirestore.instance.collection('category');
     var allDocs = await collection.get();
     for (var category in allDocs.docs) {
-      categorys.add(BrandModel(
+      categorys.add(Brand(
         docId: category.id,
         name: category.get('name'),
       ));
@@ -111,7 +111,7 @@ class FirebaseService {
     return categorys;
   }
 
-  static Future<bool> removeCategory(BrandModel brand) async {
+  static Future<bool> removeCategory(Brand brand) async {
     var categorys = FirebaseFirestore.instance.collection('category');
     await categorys.doc(brand.docId).delete();
     return true;

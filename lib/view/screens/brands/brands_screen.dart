@@ -2,11 +2,11 @@ import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flukefy_admin/view/widgets/text_field/outlined_text_field.dart';
-import 'package:flukefy_admin/view_model/brand_view_model.dart';
+import 'package:flukefy_admin/view_model/brand_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../model/brand_model.dart';
+import '../../../model/brand.dart';
 import '../../../utils/enums/status.dart';
 
 class BrandsScreen extends StatelessWidget {
@@ -20,9 +20,9 @@ class BrandsScreen extends StatelessWidget {
       appBar: const CurvedAppBar(
         title: 'Brands',
       ),
-      body: Consumer<BrandsViewModel>(
+      body: Consumer<BrandsProvider>(
         builder: (ctx, provider, child) {
-          List<BrandModel> brands = provider.brands;
+          List<Brand> brands = provider.brands;
           if (provider.brandsStatus == Status.success) {
             return ListView.separated(
               itemCount: brands.length,
@@ -48,7 +48,7 @@ class BrandsScreen extends StatelessWidget {
                             onPressed: () async {
                               // Close confirmation dialog
                               Navigator.pop(context);
-                              Provider.of<BrandsViewModel>(context, listen: false)
+                              Provider.of<BrandsProvider>(context, listen: false)
                                   .deleteBrand(context, brands[index]);
                             },
                           ),
@@ -84,8 +84,8 @@ class BrandsScreen extends StatelessWidget {
                   button: BlackButton(
                     title: 'Save',
                     onPressed: () {
-                      BrandModel brand = BrandModel(name: controller.text);
-                      Provider.of<BrandsViewModel>(context, listen: false).createBrand(context, brand);
+                      Brand brand = Brand(name: controller.text);
+                      Provider.of<BrandsProvider>(context, listen: false).createBrand(context, brand);
                     },
                   ),
                 );

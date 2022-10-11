@@ -1,21 +1,21 @@
-import 'package:flukefy_admin/model/product_model.dart';
+import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flukefy_admin/utils/enums/status.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'brand_view_model.dart';
+import 'brand_provider.dart';
 
-class ProductsViewModel extends ChangeNotifier {
-  List<ProductModel> _products = [];
+class ProductsProvider extends ChangeNotifier {
+  List<Product> _products = [];
   Status _productsStatus = Status.loading;
 
-  List<ProductModel> get products => _products;
+  List<Product> get products => _products;
 
   Status get productsStatus => _productsStatus;
 
   void loadProducts(BuildContext ctx) async {
-    var brandProvider = Provider.of<BrandsViewModel>(ctx, listen: false);
+    var brandProvider = Provider.of<BrandsProvider>(ctx, listen: false);
     await brandProvider.loadBrands();
     FirebaseService.getAllProducts(brandProvider.brands).then((result) {
       _products = result;
@@ -28,7 +28,7 @@ class ProductsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeProduct(BuildContext context, ProductModel product) async {
+  void removeProduct(BuildContext context, Product product) async {
     // Show deleting dialog
     showDialog(
         context: context,
@@ -54,7 +54,7 @@ class ProductsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void uploadProduct(BuildContext context, ProductModel product, bool isUpdateProduct) async {
+  void uploadProduct(BuildContext context, Product product, bool isUpdateProduct) async {
     // Show uploading dialog
     showDialog(
         context: context,

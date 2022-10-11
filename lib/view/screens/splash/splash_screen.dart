@@ -2,7 +2,7 @@ import 'package:flukefy_admin/view/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../view_model/products_view_model.dart';
+import '../../../view_model/products_provider.dart';
 import '../../animations/size_animation.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -68,6 +68,6 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
     });
 
-    Provider.of<ProductsViewModel>(context, listen: false).loadProducts(context);
+    Provider.of<ProductsProvider>(context, listen: false).loadProducts(context);
   }
 }

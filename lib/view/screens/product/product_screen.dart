@@ -1,17 +1,17 @@
-import 'package:flukefy_admin/model/product_model.dart';
+import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/view/screens/product/widgets/image_slider.dart';
 import 'package:flukefy_admin/view/screens/product/widgets/more_details.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../view_model/products_view_model.dart';
+import '../../../view_model/products_provider.dart';
 import '../../widgets/buttons/black_button.dart';
 import '../../widgets/general/curved_dialog.dart';
 import '../add_product/add_product_screen.dart';
 
 class ProductScreen extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
 
   const ProductScreen({Key? key, required this.product}) : super(key: key);
 
@@ -133,7 +133,7 @@ class ProductScreen extends StatelessWidget {
           onPressed: () async {
             // Close confirmation dialog
             Navigator.pop(context);
-            Provider.of<ProductsViewModel>(context, listen: false).removeProduct(context, product);
+            Provider.of<ProductsProvider>(context, listen: false).removeProduct(context, product);
           },
         ),
       ),

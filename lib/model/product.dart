@@ -1,16 +1,16 @@
-import 'package:flukefy_admin/model/brand_model.dart';
+import 'package:flukefy_admin/model/brand.dart';
 
-class ProductModel {
+class Product {
   String? docId;
   final String name;
   final String description;
-  final BrandModel? brand;
+  final Brand? brand;
   final List<String> images;
   final double rating;
   final int price;
   final int discount;
 
-  ProductModel({
+  Product({
     this.docId,
     required this.name,
     required this.description,

@@ -3,11 +3,11 @@ import 'package:flukefy_admin/view/screens/add_product/add_product_screen.dart';
 import 'package:flukefy_admin/view/screens/home/widgets/product_tile.dart';
 import 'package:flukefy_admin/view/screens/orders/orders_screen.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
-import 'package:flukefy_admin/view_model/products_view_model.dart';
+import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../model/product_model.dart';
+import '../../../model/product.dart';
 import '../brands/brands_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -47,9 +47,9 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           )),
-      body: Consumer<ProductsViewModel>(
+      body: Consumer<ProductsProvider>(
         builder: (ctx, provider, child) {
-          List<ProductModel> products = provider.products;
+          List<Product> products = provider.products;
           if (provider.productsStatus == Status.success) {
             return body(products);
           } else if (provider.productsStatus == Status.loading) {
@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget body(List<ProductModel> products) {
+  Widget body(List<Product> products) {
     return ListView.separated(
       itemCount: products.length,
       separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),

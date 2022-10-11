@@ -1,8 +1,8 @@
-import 'package:flukefy_admin/model/product_model.dart';
+import 'package:flukefy_admin/model/product.dart';
 import 'package:flutter/material.dart';
 
 class MoreDetails extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
 
   const MoreDetails({Key? key, required this.product}) : super(key: key);
 

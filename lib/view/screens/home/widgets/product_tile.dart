@@ -1,15 +1,15 @@
-import 'package:flukefy_admin/model/product_model.dart';
+import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/view/screens/add_product/add_product_screen.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
-import 'package:flukefy_admin/view_model/products_view_model.dart';
+import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../product/product_screen.dart';
 
 class ProductTile extends StatelessWidget {
-  final ProductModel product;
+  final Product product;
 
   const ProductTile({Key? key, required this.product}) : super(key: key);
 
@@ -108,7 +108,7 @@ class ProductTile extends StatelessWidget {
           onPressed: () async {
             // Close confirmation dialog
             Navigator.pop(context);
-            Provider.of<ProductsViewModel>(context, listen: false).removeProduct(context, product);
+            Provider.of<ProductsProvider>(context, listen: false).removeProduct(context, product);
           },
         ),
       ),

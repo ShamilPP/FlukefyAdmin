@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flukefy_admin/utils/colors.dart';
 import 'package:flukefy_admin/view/screens/splash/splash_screen.dart';
-import 'package:flukefy_admin/view_model/brand_view_model.dart';
-import 'package:flukefy_admin/view_model/products_view_model.dart';
+import 'package:flukefy_admin/view_model/brand_provider.dart';
+import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ProductsViewModel()),
-        ChangeNotifierProvider(create: (_) => BrandsViewModel()),
+        ChangeNotifierProvider(create: (_) => ProductsProvider()),
+        ChangeNotifierProvider(create: (_) => BrandsProvider()),
       ],
       child: MaterialApp(
         title: 'Flukefy admin',

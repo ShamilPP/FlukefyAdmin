@@ -1,14 +1,14 @@
-import 'package:flukefy_admin/model/brand_model.dart';
+import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flukefy_admin/utils/enums/status.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flutter/material.dart';
 
-class BrandsViewModel extends ChangeNotifier {
-  List<BrandModel> _brands = [];
+class BrandsProvider extends ChangeNotifier {
+  List<Brand> _brands = [];
   Status _brandsStatus = Status.loading;
 
-  List<BrandModel> get brands => _brands;
+  List<Brand> get brands => _brands;
 
   Status get brandsStatus => _brandsStatus;
 
@@ -22,7 +22,7 @@ class BrandsViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createBrand(BuildContext context, BrandModel brand) async {
+  void createBrand(BuildContext context, Brand brand) async {
     if (brand.name != '') {
       // Show creating dialog
       showDialog(
@@ -53,7 +53,7 @@ class BrandsViewModel extends ChangeNotifier {
     }
   }
 
-  void deleteBrand(BuildContext context, BrandModel brand) async {
+  void deleteBrand(BuildContext context, Brand brand) async {
 // Show deleting dialog
     showDialog(
         context: context,
