@@ -112,6 +112,8 @@ class ProductScreen extends StatelessWidget {
 
                   // More details
                   MoreDetails(product: product),
+
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

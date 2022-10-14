@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: CurvedAppBar(
           title: 'Flukefy - Admin',
+          backButton: false,
           trailing: PopupMenuButton<String>(
             icon: const Icon(
               Icons.more_horiz,

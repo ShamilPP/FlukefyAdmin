@@ -32,7 +32,7 @@ class _SplashScreenState extends State<SplashScreen> {
               delay: 300,
               child: Center(
                 child: Image.asset(
-                  'assets/icon.png',
+                  'assets/icon/icon.png',
                   width: 200,
                   height: 200,
                 ),
