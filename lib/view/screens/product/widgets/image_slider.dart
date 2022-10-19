@@ -34,7 +34,7 @@ class _ImageSliderState extends State<ImageSlider> {
             return Padding(
               padding: const EdgeInsets.all(15),
               child: Hero(
-                tag: index == 0 ? 'image${widget.product.docId}' : '$index',
+                tag: index == 0 ? 'image${widget.product.docId}' : '$value',
                 child: Image.network(
                   widget.product.images[index],
                   loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
