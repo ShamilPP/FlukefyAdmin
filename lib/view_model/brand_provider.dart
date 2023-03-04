@@ -1,8 +1,9 @@
 import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
-import 'package:flukefy_admin/utils/enums/status.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flutter/material.dart';
+
+import '../model/enums/status.dart';
 
 class BrandsProvider extends ChangeNotifier {
   List<Brand> _brands = [];
@@ -14,7 +15,7 @@ class BrandsProvider extends ChangeNotifier {
 
   Future loadBrands() async {
     _brands = await FirebaseService.getAllCategory();
-    setBrandsStatus(Status.success);
+    setBrandsStatus(Status.completed);
   }
 
   void setBrandsStatus(Status status) {

@@ -1,9 +1,9 @@
 import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
-import 'package:flukefy_admin/utils/enums/status.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../model/enums/status.dart';
 import 'brand_provider.dart';
 
 class ProductsProvider extends ChangeNotifier {
@@ -19,13 +19,9 @@ class ProductsProvider extends ChangeNotifier {
     await brandProvider.loadBrands();
     FirebaseService.getAllProducts(brandProvider.brands).then((result) {
       _products = result;
-      setProductsStatus(Status.success);
+      _productsStatus = Status.completed;
+      notifyListeners();
     });
-  }
-
-  void setProductsStatus(Status status) {
-    _productsStatus = status;
-    notifyListeners();
   }
 
   void removeProduct(BuildContext context, Product product) async {

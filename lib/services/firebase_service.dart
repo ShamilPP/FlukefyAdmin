@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flukefy_admin/model/brand.dart';
 
 import '../model/product.dart';
+import '../model/response.dart';
 
 class FirebaseService {
   static Future<List<Product>> getAllProducts(List<Brand> brands) async {
@@ -115,5 +116,27 @@ class FirebaseService {
     var categorys = FirebaseFirestore.instance.collection('category');
     await categorys.doc(brand.docId).delete();
     return true;
+  }
+
+  static Future<Response> getUpdateCode() async {
+    int code;
+    DocumentSnapshot<Map<String, dynamic>> doc;
+    try {
+      doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+    // check document exists ( avoiding null exceptions )
+    if (doc.exists && doc.data()!.containsKey("code")) {
+      // if document exists, fetch version in firebase
+      try {
+        code = doc['code'];
+        return Response.completed(code);
+      } catch (e) {
+        return Response.error('Error detected : $e');
+      }
+    } else {
+      return Response.error('Error detected : Update code fetching problem');
+    }
   }
 }

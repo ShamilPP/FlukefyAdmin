@@ -1,3 +1,4 @@
+import 'package:flukefy_admin/model/enums/status.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
@@ -7,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/brand.dart';
-import '../../../utils/enums/status.dart';
 
 class BrandsScreen extends StatelessWidget {
   BrandsScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class BrandsScreen extends StatelessWidget {
       body: Consumer<BrandsProvider>(
         builder: (ctx, provider, child) {
           List<Brand> brands = provider.brands;
-          if (provider.brandsStatus == Status.success) {
+          if (provider.brandsStatus == Status.completed) {
             return ListView.separated(
               itemCount: brands.length,
               separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
@@ -63,7 +63,7 @@ class BrandsScreen extends StatelessWidget {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.brandsStatus == Status.failed) {
+          } else if (provider.brandsStatus == Status.error) {
             return const Center(
               child: Text("Error"),
             );

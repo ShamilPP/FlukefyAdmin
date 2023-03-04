@@ -1,8 +1,7 @@
-import 'package:flukefy_admin/view/screens/home/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../view_model/products_provider.dart';
+import '../../../view_model/splash_provider.dart';
 import '../../animations/size_animation.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -15,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    goToHomeScreen();
+    Provider.of<SplashProvider>(context, listen: false).init(context);
     super.initState();
   }
 
@@ -61,13 +60,5 @@ class _SplashScreenState extends State<SplashScreen> {
         ),
       ),
     );
-  }
-
-  void goToHomeScreen() async {
-    Future.delayed(const Duration(seconds: 2)).then((value) {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-    });
-
-    Provider.of<ProductsProvider>(context, listen: false).loadProducts(context);
   }
 }

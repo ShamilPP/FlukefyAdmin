@@ -3,6 +3,7 @@ import 'package:flukefy_admin/utils/colors.dart';
 import 'package:flukefy_admin/view/screens/splash/splash_screen.dart';
 import 'package:flukefy_admin/view_model/brand_provider.dart';
 import 'package:flukefy_admin/view_model/products_provider.dart';
+import 'package:flukefy_admin/view_model/splash_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(create: (_) => SplashProvider()),
         ChangeNotifierProvider(create: (_) => ProductsProvider()),
         ChangeNotifierProvider(create: (_) => BrandsProvider()),
       ],

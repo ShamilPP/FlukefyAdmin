@@ -1,4 +1,3 @@
-import 'package:flukefy_admin/utils/enums/status.dart';
 import 'package:flukefy_admin/view/screens/add_product/add_product_screen.dart';
 import 'package:flukefy_admin/view/screens/home/widgets/product_tile.dart';
 import 'package:flukefy_admin/view/screens/orders/orders_screen.dart';
@@ -7,6 +6,7 @@ import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../model/enums/status.dart';
 import '../../../model/product.dart';
 import '../brands/brands_screen.dart';
 
@@ -51,13 +51,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<ProductsProvider>(
         builder: (ctx, provider, child) {
           List<Product> products = provider.products;
-          if (provider.productsStatus == Status.success) {
+          if (provider.productsStatus == Status.completed) {
             return body(products);
           } else if (provider.productsStatus == Status.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.productsStatus == Status.failed) {
+          } else if (provider.productsStatus == Status.error) {
             return const Center(
               child: Text("Error"),
             );
