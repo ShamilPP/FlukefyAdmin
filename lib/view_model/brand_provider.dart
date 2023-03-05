@@ -2,7 +2,7 @@ import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 
-import '../model/enums/status.dart';
+import '../model/response.dart';
 
 class BrandsProvider extends ChangeNotifier {
   List<Brand> _brands = [];

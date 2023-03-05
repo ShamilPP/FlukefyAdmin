@@ -3,7 +3,7 @@ import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../model/enums/status.dart';
+import '../model/response.dart';
 import 'brand_provider.dart';
 
 class ProductsProvider extends ChangeNotifier {
@@ -27,28 +27,8 @@ class ProductsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void removeProduct(BuildContext context, Product product) async {
-    // Show deleting dialog
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            content: Row(
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(width: 25),
-                Text(
-                  'Deleting....',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-          );
-        });
-
+  Future removeProduct(BuildContext context, Product product) async {
     await FirebaseService.removeProduct(product);
-    Navigator.pop(context);
     _products.remove(product);
     notifyListeners();
   }

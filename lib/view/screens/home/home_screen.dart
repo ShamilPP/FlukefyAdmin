@@ -7,8 +7,8 @@ import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../model/enums/status.dart';
 import '../../../model/product.dart';
+import '../../../model/response.dart';
 import '../brands/brands_screen.dart';
 
 class HomeScreen extends StatefulWidget {

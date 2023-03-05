@@ -41,6 +41,7 @@ dependencies:
   image_picker: ^0.8.5+3
   carousel_slider: ^4.1.1
   fluttertoast: ^8.0.2
+  flutter_spinkit: ^5.1.0
 
 dev_dependencies:
   flutter_test:

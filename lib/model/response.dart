@@ -1,4 +1,4 @@
-import 'enums/status.dart';
+enum Status { initial, loading, completed, error }
 
 class Response<T> {
   Status status;

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flukefy_admin/model/brand.dart';
-import 'package:flukefy_admin/model/enums/status.dart';
+import 'package:flukefy_admin/model/user.dart';
 
 import '../model/product.dart';
 import '../model/response.dart';
@@ -50,6 +50,28 @@ class FirebaseService {
       }
 
       return Response.completed(categorys);
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+  }
+
+  static Future<Response<List<User>>> getAllUsers() async {
+    try {
+      List<User> users = [];
+
+      var collection = FirebaseFirestore.instance.collection('users');
+      var allDocs = await collection.get();
+      for (var user in allDocs.docs) {
+        users.add(User(
+          docId: user.id,
+          uid: user.get('uid'),
+          name: user.get('name'),
+          email: user.get('email'),
+          phone: user.get('phone'),
+        ));
+      }
+
+      return Response.completed(users);
     } catch (e) {
       return Response.error('Error detected : $e');
     }

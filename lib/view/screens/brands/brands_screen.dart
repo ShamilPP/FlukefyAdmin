@@ -1,4 +1,3 @@
-import 'package:flukefy_admin/model/enums/status.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/brand.dart';
+import '../../../model/response.dart';
 
 class BrandsScreen extends StatelessWidget {
   BrandsScreen({Key? key}) : super(key: key);

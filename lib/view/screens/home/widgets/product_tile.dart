@@ -15,6 +15,7 @@ class ProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String imageHeroTag = 'image${product.docId}';
     return ListTile(
       title: Text(
         product.name,
@@ -40,7 +41,7 @@ class ProductTile extends StatelessWidget {
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(7),
         child: Hero(
-          tag: 'image${product.docId}',
+          tag: imageHeroTag,
           child: Image.network(
             product.images[0],
             height: 70,
@@ -91,7 +92,13 @@ class ProductTile extends StatelessWidget {
         },
       ),
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (_) => ProductScreen(product: product)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => ProductScreen(
+                      product: product,
+                      imageHeroTag: imageHeroTag,
+                    )));
       },
     );
   }
@@ -108,7 +115,27 @@ class ProductTile extends StatelessWidget {
           onPressed: () async {
             // Close confirmation dialog
             Navigator.pop(context);
-            Provider.of<ProductsProvider>(context, listen: false).removeProduct(context, product);
+            // Show deleting dialog
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (ctx) {
+                  return AlertDialog(
+                    content: Row(
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(width: 25),
+                        Text(
+                          'Deleting....',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  );
+                });
+            await Provider.of<ProductsProvider>(context, listen: false).removeProduct(context, product);
+            // Close 'Deleting' Dialog
+            Navigator.pop(context);
           },
         ),
       ),
