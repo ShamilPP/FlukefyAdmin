@@ -1,6 +1,7 @@
 import 'package:flukefy_admin/view/screens/add_product/add_product_screen.dart';
 import 'package:flukefy_admin/view/screens/home/widgets/product_tile.dart';
 import 'package:flukefy_admin/view/screens/orders/orders_screen.dart';
+import 'package:flukefy_admin/view/screens/users/users_screen.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white,
             ),
             itemBuilder: (BuildContext context) {
-              return {'Orders', 'Brands'}.map((String choice) {
+              return {'Orders', 'Brands', 'Users'}.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(choice),
@@ -44,6 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   break;
                 case 'Brands':
                   Navigator.push(context, MaterialPageRoute(builder: (_) => BrandsScreen()));
+                  break;
+                case 'Users':
+                  Navigator.push(context, MaterialPageRoute(builder: (_) => const UsersScreen()));
                   break;
               }
             },

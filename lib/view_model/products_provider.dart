@@ -17,11 +17,14 @@ class ProductsProvider extends ChangeNotifier {
   void loadProducts(BuildContext ctx) async {
     var brandProvider = Provider.of<BrandsProvider>(ctx, listen: false);
     await brandProvider.loadBrands();
-    FirebaseService.getAllProducts(brandProvider.brands).then((result) {
-      _products = result;
-      _productsStatus = Status.completed;
-      notifyListeners();
-    });
+    var productsResponse = await FirebaseService.getAllProducts(brandProvider.brands);
+    if (productsResponse.status == Status.completed && productsResponse.data != null) {
+      _products = productsResponse.data!;
+    } else {
+      _products = [];
+    }
+    _productsStatus = productsResponse.status;
+    notifyListeners();
   }
 
   void removeProduct(BuildContext context, Product product) async {
@@ -50,38 +53,30 @@ class ProductsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void uploadProduct(BuildContext context, Product product, bool isUpdateProduct) async {
-    // Show uploading dialog
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            content: Row(
-              children: [
-                const CircularProgressIndicator(),
-                const SizedBox(width: 25),
-                Text(
-                  isUpdateProduct ? 'Updating...' : 'Uploading...',
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-          );
-        });
-
-    //Upload
-
+  Future uploadProduct(BuildContext context, Product product, bool isUpdateProduct) async {
+    // Upload
     if (isUpdateProduct) {
-      await FirebaseService.updateProduct(product);
+      // Update product
+      // Updating data in firebase
+      var productResponse = await FirebaseService.updateProduct(product);
+      if (productResponse.data != null && productResponse.status == Status.completed) {
+        var newProduct = productResponse.data!;
+        // Checking old product index
+        int productIndex = _products.indexWhere((element) => element.docId == newProduct.docId);
+        if (productIndex != -1) {
+          // Update product in product list
+          _products[productIndex] = newProduct;
+          notifyListeners();
+        }
+      }
     } else {
-      await FirebaseService.uploadProduct(product);
+      // Uploading product
+      var productResponse = await FirebaseService.createProduct(product);
+      if (productResponse.data != null && productResponse.status == Status.completed) {
+        // Add product to list
+        _products.add(productResponse.data!);
+        notifyListeners();
+      }
     }
-    loadProducts(context);
-
-    // Close Dialog
-    Navigator.pop(context);
-    // Back to home screen
-    Navigator.pop(context);
   }
 }

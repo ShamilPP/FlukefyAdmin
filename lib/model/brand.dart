@@ -1,5 +1,5 @@
 class Brand {
-  final String? docId;
+  String? docId;
   final String name;
 
   Brand({

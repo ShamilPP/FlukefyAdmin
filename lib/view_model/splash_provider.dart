@@ -12,12 +12,13 @@ import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
-    Response serverUpdateCode = await FirebaseService.getUpdateCode();
+    Response<int> serverUpdateCode = await FirebaseService.getUpdateCode();
 
     if (serverUpdateCode.data != updateCode) {
-      // If this is not matching update code show update dialog
-      if (serverUpdateCode.status != Status.completed) showToast(serverUpdateCode.message!, Colors.red);
+      // If update code is not matching, show update dialog
       showUpdateDialog(context);
+      // If update code fetching problem, show error in toast
+      if (serverUpdateCode.status != Status.completed) showToast(serverUpdateCode.message!, Colors.red);
     } else {
       loadFromFirebase(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));

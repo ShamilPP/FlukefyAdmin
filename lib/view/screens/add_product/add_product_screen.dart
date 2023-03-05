@@ -92,61 +92,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
               child: BlackButton(
                 title: widget.isUpdateProduct ? 'Update' : 'Upload',
                 fontSize: 15,
-                onPressed: () async {
-                  String name = nameController.text;
-                  String desc = descController.text;
-                  Brand? brand = BrandSelector.brandNotifier.value;
-                  double? rating = double.tryParse(ratingController.text);
-                  int? price = int.tryParse(priceController.text);
-                  int? discount = int.tryParse(discountController.text);
-                  List<String> images = ImageSelector.imagesNotifier.value;
-
-                  rating ??= 0;
-                  price ??= 0;
-                  discount ??= 0;
-
-                  if (rating > 5 || rating < 1) {
-                    rating = 0;
-                  }
-                  if (name != '' &&
-                      desc != '' &&
-                      brand != null &&
-                      rating != 0 &&
-                      price != 0 &&
-                      images.isNotEmpty) {
-                    Product product = Product(
-                      docId: widget.isUpdateProduct ? widget.product!.docId : null,
-                      name: name,
-                      description: desc,
-                      brand: brand,
-                      images: images,
-                      rating: rating,
-                      price: price,
-                      discount: discount,
-                    );
-
-                    Provider.of<ProductsProvider>(context, listen: false)
-                        .uploadProduct(context, product, widget.isUpdateProduct);
-                  } else {
-                    showDialog(
-                      context: context,
-                      builder: (ctx) {
-                        return CurvedDialog(
-                          title: 'Failed !',
-                          closeButton: false,
-                          content:
-                              const Text('Product uploading failed, please fill empty box then try again'),
-                          button: BlackButton(
-                              title: 'Close',
-                              fontSize: 15,
-                              onPressed: () {
-                                Navigator.pop(context);
-                              }),
-                        );
-                      },
-                    );
-                  }
-                },
+                onPressed: uploadProduct,
               ),
             ),
           ],
@@ -164,5 +110,79 @@ class _AddProductScreenState extends State<AddProductScreen> {
         discountPrice = currentPrice - (currentPrice * discount ~/ 100);
       }
     });
+  }
+
+  void uploadProduct() async {
+    String name = nameController.text;
+    String desc = descController.text;
+    Brand? brand = BrandSelector.brandNotifier.value;
+    double? rating = double.tryParse(ratingController.text);
+    int? price = int.tryParse(priceController.text);
+    int? discount = int.tryParse(discountController.text);
+    List<String> images = ImageSelector.imagesNotifier.value;
+
+    rating ??= 0;
+    price ??= 0;
+    discount ??= 0;
+
+    if (rating > 5 || rating < 1) {
+      rating = 0;
+    }
+    if (name != '' && desc != '' && brand != null && rating != 0 && price != 0 && images.isNotEmpty) {
+      Product product = Product(
+        docId: widget.isUpdateProduct ? widget.product!.docId : null,
+        name: name,
+        description: desc,
+        brand: brand,
+        images: images,
+        rating: rating,
+        price: price,
+        discount: discount,
+      );
+
+      // Show uploading dialog
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (ctx) {
+            return AlertDialog(
+              content: Row(
+                children: [
+                  const CircularProgressIndicator(),
+                  const SizedBox(width: 25),
+                  Text(
+                    widget.isUpdateProduct ? 'Updating...' : 'Uploading...',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            );
+          });
+
+      await Provider.of<ProductsProvider>(context, listen: false)
+          .uploadProduct(context, product, widget.isUpdateProduct);
+
+      // Close Dialog
+      Navigator.pop(context);
+      // Back to home screen
+      Navigator.pop(context);
+    } else {
+      showDialog(
+        context: context,
+        builder: (ctx) {
+          return CurvedDialog(
+            title: 'Failed !',
+            closeButton: false,
+            content: const Text('Product uploading failed, please fill empty box then try again'),
+            button: BlackButton(
+                title: 'Close',
+                fontSize: 15,
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          );
+        },
+      );
+    }
   }
 }

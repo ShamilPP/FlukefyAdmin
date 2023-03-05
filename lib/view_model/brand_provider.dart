@@ -1,6 +1,5 @@
 import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
-import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flutter/material.dart';
 
 import '../model/enums/status.dart';
@@ -14,68 +13,28 @@ class BrandsProvider extends ChangeNotifier {
   Status get brandsStatus => _brandsStatus;
 
   Future loadBrands() async {
-    _brands = await FirebaseService.getAllCategory();
-    setBrandsStatus(Status.completed);
-  }
-
-  void setBrandsStatus(Status status) {
-    _brandsStatus = status;
+    var brandsResponse = await FirebaseService.getAllCategory();
+    if (brandsResponse.status == Status.completed && brandsResponse.data != null) {
+      _brands = brandsResponse.data!;
+    } else {
+      _brands = [];
+    }
+    _brandsStatus = brandsResponse.status;
     notifyListeners();
   }
 
-  void createBrand(BuildContext context, Brand brand) async {
-    if (brand.name != '') {
-      // Show creating dialog
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (ctx) {
-            return AlertDialog(
-              content: Row(
-                children: const [
-                  CircularProgressIndicator(),
-                  SizedBox(width: 25),
-                  Text(
-                    'Creating...',
-                    style: TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-            );
-          });
-      await FirebaseService.createCategory(brand);
-      loadBrands();
-      // Close Dialog
-      Navigator.pop(context);
-      // Back to home screen
-      Navigator.pop(context);
-    } else {
-      showDialog(context: context, builder: (ctx) => const CurvedDialog(title: 'Brand name is empty'));
+  Future createBrand(BuildContext context, Brand brand) async {
+    var brandResponse = await FirebaseService.createCategory(brand);
+
+    if (brandResponse.status == Status.completed && brandResponse.data != null) {
+      Brand newBrand = brandResponse.data!;
+      _brands.add(newBrand);
+      notifyListeners();
     }
   }
 
-  void deleteBrand(BuildContext context, Brand brand) async {
-// Show deleting dialog
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            content: Row(
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(width: 25),
-                Text(
-                  'Deleting....',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-          );
-        });
-
+  Future deleteBrand(BuildContext context, Brand brand) async {
     await FirebaseService.removeCategory(brand);
-    Navigator.pop(context);
     _brands.remove(brand);
     notifyListeners();
   }
