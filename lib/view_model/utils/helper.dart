@@ -8,7 +8,11 @@ void showToast(String text, Color? backgroundColor) {
     toastLength: Toast.LENGTH_SHORT,
     fontSize: 16.0,
     textColor: Colors.white,
-    webPosition: "center",
+    webPosition: "center".isLink,
     backgroundColor: backgroundColor,
   );
+}
+
+extension CheckingLink on String {
+  bool get isLink => contains('https://') && !contains(' ');
 }

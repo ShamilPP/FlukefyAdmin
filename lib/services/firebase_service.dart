@@ -80,21 +80,8 @@ class FirebaseService {
   static Future<Response<Product>> createProduct(Product product) async {
     try {
       var products = FirebaseFirestore.instance.collection('products');
-      List<String> imagesUrls = [];
-      // Images Upload
-      for (int i = 0; i < product.images.length; i++) {
-        // Set image name
-        String imageExtension = product.images[i].substring(product.images[i].lastIndexOf("."));
-        String imageName = 'IMG ${DateTime.now().millisecondsSinceEpoch}' + imageExtension;
-
-        // Upload image to firebase storage
-        Response<String> imageUrl = await uploadImage(product.images[i], imageName);
-        // to add image list
-        if (imageUrl.data != null && imageUrl.status == Status.completed) imagesUrls.add(imageUrl.data!);
-      }
-
       var result = await products.add({
-        'images': imagesUrls,
+        'images': product.images,
         'name': product.name,
         'description': product.description,
         'category': product.brand!.docId,
@@ -105,7 +92,6 @@ class FirebaseService {
 
       var newProduct = product;
       newProduct.docId = result.id;
-      newProduct.images = imagesUrls;
 
       return Response.completed(newProduct);
     } catch (e) {
@@ -175,6 +161,15 @@ class FirebaseService {
     try {
       var categorys = FirebaseFirestore.instance.collection('category');
       await categorys.doc(brand.docId).delete();
+      return Response.completed(true);
+    } catch (e) {
+      return Response.error('Error detected : $e');
+    }
+  }
+
+  static Future<Response<bool>> removeImage(String url) async {
+    try {
+      await FirebaseStorage.instance.refFromURL(url).delete();
       return Response.completed(true);
     } catch (e) {
       return Response.error('Error detected : $e');

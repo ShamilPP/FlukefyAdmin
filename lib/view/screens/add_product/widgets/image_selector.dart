@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -7,6 +8,7 @@ class ImageSelector extends StatelessWidget {
   const ImageSelector({Key? key}) : super(key: key);
 
   static ValueNotifier<List<String>> imagesNotifier = ValueNotifier([]);
+  static ValueNotifier<List<String>> removedImagesNotifier = ValueNotifier([]);
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +26,12 @@ class ImageSelector extends StatelessWidget {
                     children: [
                       ...value.asMap().entries.map((entry) {
                         // Image Viewer
+                        ImageProvider image;
+                        if (entry.value.isLink) {
+                          image = NetworkImage(entry.value);
+                        } else {
+                          image = FileImage(File(entry.value));
+                        }
                         return Padding(
                           padding: const EdgeInsets.all(10),
                           child: Container(
@@ -31,11 +39,7 @@ class ImageSelector extends StatelessWidget {
                               width: 100,
                               decoration: BoxDecoration(
                                   border: Border.all(),
-                                  image: DecorationImage(
-                                      image: FileImage(
-                                        File(entry.value),
-                                      ),
-                                      fit: BoxFit.cover),
+                                  image: DecorationImage(image: image, fit: BoxFit.cover),
                                   borderRadius: BorderRadius.circular(8)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8),
@@ -57,6 +61,9 @@ class ImageSelector extends StatelessWidget {
                                       ),
                                       onTap: () {
                                         List<String> images = imagesNotifier.value;
+                                        if (images[entry.key].isLink) {
+                                          removedImagesNotifier.value.add(images[entry.key]);
+                                        }
                                         images.remove(images[entry.key]);
                                         imagesNotifier.value = [...images];
                                       },
@@ -80,13 +87,9 @@ class ImageSelector extends StatelessWidget {
                           onTap: () async {
                             // Pick images
                             final ImagePicker picker = ImagePicker();
-                            final List<XFile>? newImages = await picker.pickMultiImage();
-                            if (newImages != null) {
-                              List<String> images = imagesNotifier.value;
-                              for (var image in newImages) {
-                                images.add(image.path);
-                              }
-                              imagesNotifier.value = [...images];
+                            final List<XFile> newImages = await picker.pickMultiImage();
+                            for (var image in newImages) {
+                              imagesNotifier.value = [...imagesNotifier.value, image.path];
                             }
                           },
                         ),

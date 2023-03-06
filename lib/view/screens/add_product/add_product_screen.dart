@@ -39,6 +39,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   void dispose() {
     ImageSelector.imagesNotifier.value = [];
+    ImageSelector.removedImagesNotifier.value = [];
     BrandSelector.brandNotifier.value = null;
     super.dispose();
   }
@@ -65,8 +66,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            widget.isUpdateProduct ? const SizedBox() : const ImageSelector(),
-
+            const ImageSelector(),
             // TextFields
             OutlinedTextField(hint: 'Name', controller: nameController),
             OutlinedTextField(hint: 'Description', controller: descController, maxLines: 5),
@@ -158,8 +158,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
             );
           });
 
-      await Provider.of<ProductsProvider>(context, listen: false).uploadProduct(context, product, widget.isUpdateProduct);
-
+      if (widget.isUpdateProduct) {
+        await Provider.of<ProductsProvider>(context, listen: false)
+            .updateProduct(product, ImageSelector.removedImagesNotifier.value);
+      } else {
+        await Provider.of<ProductsProvider>(context, listen: false).createProduct(product);
+      }
       // Close Dialog
       Navigator.pop(context);
       buttonController.success();

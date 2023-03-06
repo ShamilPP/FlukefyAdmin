@@ -4,6 +4,7 @@ import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
 import '../../product/product_screen.dart';
@@ -48,17 +49,7 @@ class ProductTile extends StatelessWidget {
             fit: BoxFit.cover,
             loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
               if (loadingProgress == null) return child;
-              return SizedBox(
-                height: 70,
-                width: 80,
-                child: Center(
-                  child: CircularProgressIndicator(
-                    value: loadingProgress.expectedTotalBytes != null
-                        ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                        : null,
-                  ),
-                ),
-              );
+              return const SizedBox(height: 70, width: 80, child: Center(child: SpinKitPulse(color: Colors.black, size: 20)));
             },
           ),
         ),
