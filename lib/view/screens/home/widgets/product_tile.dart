@@ -32,8 +32,7 @@ class ProductTile extends StatelessWidget {
                 )),
             TextSpan(
               text: '₹${product.price}',
-              style:
-                  const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 14),
+              style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 14),
             ),
           ],
         ),
@@ -81,9 +80,7 @@ class ProductTile extends StatelessWidget {
           switch (selected) {
             case 'Edit':
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => AddProductScreen(isUpdateProduct: true, product: product)));
+                  context, MaterialPageRoute(builder: (_) => AddProductScreen(isUpdateProduct: true, product: product)));
               break;
             case 'Delete':
               deleteProduct(context);

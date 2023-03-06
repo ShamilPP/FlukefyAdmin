@@ -46,8 +46,7 @@ class ProductDetails extends StatelessWidget {
                   // Brand
                   FadeAnimation(
                     delay: 100,
-                    child:
-                        Text(product.brand!.name, style: const TextStyle(color: Colors.grey, fontSize: 16)),
+                    child: Text(product.brand!.name, style: const TextStyle(color: Colors.grey, fontSize: 16)),
                   ),
                   const SizedBox(height: 5),
                   // Product name
@@ -60,8 +59,7 @@ class ProductDetails extends StatelessWidget {
                       children: [
                         Text(
                           '₹${product.price}',
-                          style: const TextStyle(
-                              color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 17),
+                          style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 17),
                         ),
                         const SizedBox(width: 10),
                         Text(
@@ -79,9 +77,7 @@ class ProductDetails extends StatelessWidget {
                   const SizedBox(height: 10),
                   // Description
                   FadeAnimation(
-                      delay: 400,
-                      child: Text(product.description,
-                          style: const TextStyle(color: Colors.grey, fontSize: 16))),
+                      delay: 400, child: Text(product.description, style: const TextStyle(color: Colors.grey, fontSize: 16))),
 
                   // Similar Products
                   const FadeAnimation(delay: 500, child: SimilarProducts()),

@@ -9,8 +9,7 @@ class ImageSlider extends StatefulWidget {
   final String imageHeroTag;
   final double imageHeight;
 
-  const ImageSlider({required this.images, Key? key, required this.imageHeroTag, required this.imageHeight})
-      : super(key: key);
+  const ImageSlider({required this.images, Key? key, required this.imageHeroTag, required this.imageHeight}) : super(key: key);
 
   @override
   State<ImageSlider> createState() => _ImageSliderState();
@@ -38,7 +37,7 @@ class _ImageSliderState extends State<ImageSlider> {
           ),
           itemCount: widget.images.length,
           itemBuilder: (ctx, index, value) {
-            var heroTag = index == 0 ? widget.imageHeroTag : '$index';
+            var heroTag = index == 0 ? widget.imageHeroTag : '$value';
             return InkWell(
               onTap: () {
                 Navigator.push(

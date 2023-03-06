@@ -27,8 +27,8 @@ class OutlinedTextField extends StatelessWidget {
           controller: controller,
           maxLines: maxLines,
           keyboardType: numberKeyboard ? TextInputType.number : null,
-          decoration: InputDecoration(
-              hintText: hint, labelText: hint, border: const OutlineInputBorder(), suffixText: suffixText),
+          decoration:
+              InputDecoration(hintText: hint, labelText: hint, border: const OutlineInputBorder(), suffixText: suffixText),
           onChanged: onChanged,
         ),
       ),

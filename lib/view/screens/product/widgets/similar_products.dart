@@ -34,8 +34,7 @@ class SimilarProducts extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: provider.products.length < 4 ? provider.products.length : 4,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, childAspectRatio: 9 / 12),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
               itemBuilder: (ctx, index) {
                 var products = provider.products.toList()..shuffle();
                 return productCard(context, products[index]);
@@ -61,9 +60,7 @@ class SimilarProducts extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))
-          ],
+          boxShadow: [BoxShadow(color: primaryColor.withOpacity(.4), blurRadius: 2, offset: const Offset(0, 2))],
         ),
         child: Material(
           borderRadius: BorderRadius.circular(10),
@@ -85,8 +82,7 @@ class SimilarProducts extends StatelessWidget {
                         height: double.infinity,
                         width: double.infinity,
                         fit: BoxFit.cover,
-                        loadingBuilder:
-                            (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                        loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
                           if (loadingProgress == null) return child;
                           return const SizedBox(
                             height: double.infinity,
@@ -101,13 +97,10 @@ class SimilarProducts extends StatelessWidget {
                   )),
                   space,
                   Text(productDetails.name,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 15, color: Colors.black)),
+                      overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 15, color: Colors.black)),
                   space,
                   Text(productDetails.description,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                      maxLines: 1, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 13, color: Colors.grey)),
                   space,
                   // Price
                   Row(
@@ -117,8 +110,7 @@ class SimilarProducts extends StatelessWidget {
                         style: TextStyle(color: Colors.red.shade900, fontSize: 18),
                       ),
                       const SizedBox(width: 5),
-                      Text('${productDetails.discount}% off',
-                          style: const TextStyle(color: Colors.green, fontSize: 13)),
+                      Text('${productDetails.discount}% off', style: const TextStyle(color: Colors.green, fontSize: 13)),
                     ],
                   ),
                 ],
@@ -126,9 +118,7 @@ class SimilarProducts extends StatelessWidget {
             ),
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (_) => ProductScreen(product: productDetails, imageHeroTag: heroTag)));
+                  context, MaterialPageRoute(builder: (_) => ProductScreen(product: productDetails, imageHeroTag: heroTag)));
             },
           ),
         ),

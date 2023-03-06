@@ -74,10 +74,8 @@ class ImageSelector extends StatelessWidget {
                           child: Container(
                             height: 100,
                             width: 100,
-                            decoration:
-                                BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(8)),
-                            child: Center(
-                                child: Text(imagesNotifier.value.isEmpty ? 'Select image' : 'Add image')),
+                            decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(8)),
+                            child: Center(child: Text(imagesNotifier.value.isEmpty ? 'Select image' : 'Add image')),
                           ),
                           onTap: () async {
                             // Pick images

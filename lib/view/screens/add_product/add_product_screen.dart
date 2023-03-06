@@ -1,5 +1,6 @@
 import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/model/product.dart';
+import 'package:flukefy_admin/utils/colors.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/brand_selector.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/image_selector.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
@@ -8,6 +9,7 @@ import 'package:flukefy_admin/view/widgets/text_field/outlined_text_field.dart';
 import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rounded_loading_button/rounded_loading_button.dart';
 
 class AddProductScreen extends StatefulWidget {
   final bool isUpdateProduct;
@@ -24,14 +26,12 @@ class AddProductScreen extends StatefulWidget {
 }
 
 class _AddProductScreenState extends State<AddProductScreen> {
+  final RoundedLoadingButtonController buttonController = RoundedLoadingButtonController();
+
   final nameController = TextEditingController();
-
   final descController = TextEditingController();
-
   final ratingController = TextEditingController();
-
   final priceController = TextEditingController();
-
   final discountController = TextEditingController();
 
   int discountPrice = 0;
@@ -89,10 +89,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
             // Upload button
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: BlackButton(
-                title: widget.isUpdateProduct ? 'Update' : 'Upload',
-                fontSize: 15,
+              child: RoundedLoadingButton(
+                controller: buttonController,
+                color: primaryColor,
+                successColor: Colors.green,
                 onPressed: uploadProduct,
+                child: Text(widget.isUpdateProduct ? 'Update' : 'Upload'),
               ),
             ),
           ],
@@ -125,10 +127,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     price ??= 0;
     discount ??= 0;
 
-    if (rating > 5 || rating < 1) {
-      rating = 0;
-    }
-    if (name != '' && desc != '' && brand != null && rating != 0 && price != 0 && images.isNotEmpty) {
+    if (name != '' && desc != '' && brand != null && (5 > rating && 1 < rating) && price != 0 && images.isNotEmpty) {
       Product product = Product(
         docId: widget.isUpdateProduct ? widget.product!.docId : null,
         name: name,
@@ -159,11 +158,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
             );
           });
 
-      await Provider.of<ProductsProvider>(context, listen: false)
-          .uploadProduct(context, product, widget.isUpdateProduct);
+      await Provider.of<ProductsProvider>(context, listen: false).uploadProduct(context, product, widget.isUpdateProduct);
 
       // Close Dialog
       Navigator.pop(context);
+      buttonController.success();
+      await Future.delayed(const Duration(milliseconds: 500));
       // Back to home screen
       Navigator.pop(context);
     } else {
@@ -183,6 +183,9 @@ class _AddProductScreenState extends State<AddProductScreen> {
           );
         },
       );
+      buttonController.error();
+      await Future.delayed(const Duration(seconds: 2));
+      buttonController.reset();
     }
   }
 }
