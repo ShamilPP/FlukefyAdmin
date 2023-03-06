@@ -9,22 +9,19 @@ import '../model/product.dart';
 import '../model/response.dart';
 
 class FirebaseService {
-  static Future<Response<List<Product>>> getAllProducts(List<Brand> brands) async {
+  static Future<Response<List<Product>>> getAllProducts() async {
     try {
       List<Product> products = [];
 
       var collection = FirebaseFirestore.instance.collection('products');
       var allDocs = await collection.get();
       for (var product in allDocs.docs) {
-        // find brand
-        int index = brands.indexWhere((element) => element.docId == product.get('category'));
-
         products.add(Product(
           docId: product.id,
           name: product.get('name'),
           images: List<String>.from(product.get('images')),
           description: product.get('description'),
-          brand: index == -1 ? null : brands[index],
+          brandId: product.get('category'),
           rating: product.get('rating'),
           price: product.get('price'),
           discount: product.get('discount'),
@@ -84,7 +81,7 @@ class FirebaseService {
         'images': product.images,
         'name': product.name,
         'description': product.description,
-        'category': product.brand!.docId,
+        'category': product.brandId,
         'rating': product.rating,
         'price': product.price,
         'discount': product.discount,
@@ -132,7 +129,7 @@ class FirebaseService {
       await products.doc(product.docId).update({
         'name': product.name,
         'description': product.description,
-        'category': product.brand!.docId,
+        'category': product.brandId,
         'rating': product.rating,
         'price': product.price,
         'discount': product.discount,

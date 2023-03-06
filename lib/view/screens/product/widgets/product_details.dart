@@ -2,6 +2,7 @@ import 'package:flukefy_admin/view/screens/product/widgets/similar_products.dart
 import 'package:flutter/material.dart';
 
 import '../../../../model/product.dart';
+import '../../../../view_model/utils/helper.dart';
 import '../../../animations/fade_animation.dart';
 
 class ProductDetails extends StatelessWidget {
@@ -46,7 +47,8 @@ class ProductDetails extends StatelessWidget {
                   // Brand
                   FadeAnimation(
                     delay: 100,
-                    child: Text(product.brand!.name, style: const TextStyle(color: Colors.grey, fontSize: 16)),
+                    child:
+                        Text(getBrand(context, product.brandId)!.name, style: const TextStyle(color: Colors.grey, fontSize: 16)),
                   ),
                   const SizedBox(height: 5),
                   // Product name

@@ -1,4 +1,3 @@
-import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/utils/colors.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/brand_selector.dart';
@@ -53,7 +52,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       priceController.text = widget.product!.price.toString();
       discountController.text = widget.product!.discount.toString();
       updateDiscountPrice(widget.product!.price.toString());
-      BrandSelector.brandNotifier.value = widget.product!.brand;
+      BrandSelector.brandNotifier.value = widget.product!.brandId;
       ImageSelector.imagesNotifier.value = widget.product!.images;
     }
     super.initState();
@@ -117,7 +116,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   void uploadProduct() async {
     String name = nameController.text;
     String desc = descController.text;
-    Brand? brand = BrandSelector.brandNotifier.value;
+    String? brandId = BrandSelector.brandNotifier.value;
     double? rating = double.tryParse(ratingController.text);
     int? price = int.tryParse(priceController.text);
     int? discount = int.tryParse(discountController.text);
@@ -127,12 +126,12 @@ class _AddProductScreenState extends State<AddProductScreen> {
     price ??= 0;
     discount ??= 0;
 
-    if (name != '' && desc != '' && brand != null && (5 > rating && 1 < rating) && price != 0 && images.isNotEmpty) {
+    if (name != '' && desc != '' && brandId != null && (5 > rating && 1 < rating) && price != 0 && images.isNotEmpty) {
       Product product = Product(
         docId: widget.isUpdateProduct ? widget.product!.docId : null,
         name: name,
         description: desc,
-        brand: brand,
+        brandId: brandId,
         images: images,
         rating: rating,
         price: price,

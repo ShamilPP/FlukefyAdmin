@@ -7,6 +7,7 @@ import '../model/response.dart';
 import '../services/firebase_service.dart';
 import '../utils/constant.dart';
 import '../view/screens/home/home_screen.dart';
+import 'brand_provider.dart';
 import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
@@ -25,7 +26,8 @@ class SplashProvider extends ChangeNotifier {
   }
 
   void loadFromFirebase(BuildContext context) async {
-    Provider.of<ProductsProvider>(context, listen: false).loadProducts(context);
+    Provider.of<ProductsProvider>(context, listen: false).loadProducts();
+    Provider.of<BrandsProvider>(context, listen: false).loadBrands();
   }
 
   void showUpdateDialog(BuildContext context) {

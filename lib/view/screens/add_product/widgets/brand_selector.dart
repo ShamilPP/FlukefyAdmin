@@ -9,7 +9,7 @@ import '../../../widgets/text_field/outlined_text_field.dart';
 
 class BrandSelector extends StatelessWidget {
   const BrandSelector({Key? key}) : super(key: key);
-  static ValueNotifier<Brand?> brandNotifier = ValueNotifier(null);
+  static ValueNotifier<String?> brandNotifier = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
@@ -25,21 +25,21 @@ class BrandSelector extends StatelessWidget {
         return ButtonTheme(
           alignedDropdown: true,
           child: DropdownButtonHideUnderline(
-            child: ValueListenableBuilder<Brand?>(
+            child: ValueListenableBuilder<String?>(
                 valueListenable: brandNotifier,
                 builder: (ctx, notifierValue, child) {
-                  return DropdownButton<Brand>(
+                  return DropdownButton<String?>(
                     value: notifierValue,
                     hint: const Text('Select brand'),
                     items: [
                       ...brands.map((brand) {
-                        return DropdownMenuItem<Brand>(
-                          value: brand,
+                        return DropdownMenuItem<String?>(
+                          value: brand.docId,
                           child: Text(brand.name),
                         );
                       }).toList(),
-                      DropdownMenuItem<Brand>(
-                        value: Brand(docId: 'New', name: 'New'),
+                      DropdownMenuItem<String?>(
+                        value: 'New',
                         child: Row(
                           children: const [
                             Icon(Icons.add),
@@ -50,7 +50,7 @@ class BrandSelector extends StatelessWidget {
                       )
                     ],
                     onChanged: (newValue) {
-                      if (newValue!.docId == 'New') {
+                      if (newValue == 'New') {
                         var controller = TextEditingController();
                         showDialog(
                           context: context,
@@ -63,7 +63,7 @@ class BrandSelector extends StatelessWidget {
                           },
                         );
                       } else {
-                        brandNotifier.value = newValue;
+                        brandNotifier.value = newValue!;
                       }
                     },
                   );

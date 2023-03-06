@@ -12,15 +12,16 @@ class BrandsProvider extends ChangeNotifier {
 
   Status get brandsStatus => _brandsStatus;
 
-  Future loadBrands() async {
-    var brandsResponse = await FirebaseService.getAllCategory();
-    if (brandsResponse.status == Status.completed && brandsResponse.data != null) {
-      _brands = brandsResponse.data!;
-    } else {
-      _brands = [];
-    }
-    _brandsStatus = brandsResponse.status;
-    notifyListeners();
+  void loadBrands() {
+    FirebaseService.getAllCategory().then((response) {
+      _brandsStatus = response.status;
+      if (_brandsStatus == Status.completed && response.data != null) {
+        _brands = response.data!;
+      } else {
+        _brands = [];
+      }
+      notifyListeners();
+    });
   }
 
   Future createBrand(BuildContext context, Brand brand) async {

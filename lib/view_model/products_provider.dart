@@ -2,10 +2,8 @@ import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../model/response.dart';
-import 'brand_provider.dart';
 
 class ProductsProvider extends ChangeNotifier {
   List<Product> _products = [];
@@ -15,17 +13,16 @@ class ProductsProvider extends ChangeNotifier {
 
   Status get productsStatus => _productsStatus;
 
-  void loadProducts(BuildContext ctx) async {
-    var brandProvider = Provider.of<BrandsProvider>(ctx, listen: false);
-    await brandProvider.loadBrands();
-    var productsResponse = await FirebaseService.getAllProducts(brandProvider.brands);
-    if (productsResponse.status == Status.completed && productsResponse.data != null) {
-      _products = productsResponse.data!;
-    } else {
-      _products = [];
-    }
-    _productsStatus = productsResponse.status;
-    notifyListeners();
+  void loadProducts() {
+    FirebaseService.getAllProducts().then((response) {
+      _productsStatus = response.status;
+      if (_productsStatus == Status.completed && response.data != null) {
+        _products = response.data!;
+      } else {
+        _products = [];
+      }
+      notifyListeners();
+    });
   }
 
   Future removeProduct(BuildContext context, Product product) async {
