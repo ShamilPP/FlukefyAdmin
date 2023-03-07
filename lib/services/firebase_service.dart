@@ -183,10 +183,10 @@ class FirebaseService {
       return Response.error('Error detected : $e');
     }
     // check document exists ( avoiding null exceptions )
-    if (doc.exists && doc.data()!.containsKey("code")) {
+    if (doc.exists && doc.data()!.containsKey("admin")) {
       // if document exists, fetch version in firebase
       try {
-        code = doc['code'];
+        code = doc['admin'];
         return Response.completed(code);
       } catch (e) {
         return Response.error('Error detected : $e');

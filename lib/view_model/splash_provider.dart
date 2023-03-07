@@ -40,7 +40,7 @@ class SplashProvider extends ChangeNotifier {
         actions: [
           ElevatedButton(
             onPressed: () => SystemNavigator.pop(),
-            child: const Text('Ok'),
+            child: const Text('Close'),
           ),
         ],
       ),
