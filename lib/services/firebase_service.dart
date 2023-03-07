@@ -127,6 +127,7 @@ class FirebaseService {
     try {
       var products = FirebaseFirestore.instance.collection('products');
       await products.doc(product.docId).update({
+        'images' : product.images,
         'name': product.name,
         'description': product.description,
         'category': product.brandId,
