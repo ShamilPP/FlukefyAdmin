@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/product.dart';
-import '../../../model/response.dart';
+import '../../../model/result.dart';
 import '../brands/brands_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<ProductsProvider>(
         builder: (ctx, provider, child) {
           List<Product> products = provider.products;
-          if (provider.productsStatus == Status.completed) {
+          if (provider.productsStatus == Status.success) {
             return body(products);
           } else if (provider.productsStatus == Status.loading) {
             return const Center(

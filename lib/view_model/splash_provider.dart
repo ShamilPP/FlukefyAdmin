@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
-import '../model/response.dart';
+import '../model/result.dart';
 import '../services/firebase_service.dart';
 import '../utils/constant.dart';
 import '../view/screens/home/home_screen.dart';
@@ -12,13 +12,13 @@ import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
-    Response<int> serverUpdateCode = await FirebaseService.getUpdateCode();
+    Result<int> serverUpdateCode = await FirebaseService.getUpdateCode();
 
     if (serverUpdateCode.data != updateCode) {
       // If update code is not matching, show update dialog
       showUpdateDialog(context);
       // If update code fetching problem, show error in toast
-      if (serverUpdateCode.status != Status.completed) showToast(serverUpdateCode.message!, Colors.red);
+      if (serverUpdateCode.status != Status.success) showToast(serverUpdateCode.message!, Colors.red);
     } else {
       loadFromFirebase(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));

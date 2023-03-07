@@ -3,7 +3,7 @@ import 'package:flukefy_admin/services/firebase_service.dart';
 import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
 
-import '../model/response.dart';
+import '../model/result.dart';
 
 class ProductsProvider extends ChangeNotifier {
   List<Product> _products = [];
@@ -14,10 +14,10 @@ class ProductsProvider extends ChangeNotifier {
   Status get productsStatus => _productsStatus;
 
   void loadProducts() {
-    FirebaseService.getAllProducts().then((response) {
-      _productsStatus = response.status;
-      if (_productsStatus == Status.completed && response.data != null) {
-        _products = response.data!;
+    FirebaseService.getAllProducts().then((Result) {
+      _productsStatus = Result.status;
+      if (_productsStatus == Status.success && Result.data != null) {
+        _products = Result.data!;
       } else {
         _products = [];
       }
@@ -40,9 +40,9 @@ class ProductsProvider extends ChangeNotifier {
         String imageExtension = product.images[i].substring(product.images[i].lastIndexOf("."));
         String imageName = 'IMG ${DateTime.now().millisecondsSinceEpoch}$imageExtension';
         // Upload image to firebase storage
-        Response<String> imageUrl = await FirebaseService.uploadImage(product.images[i], imageName);
+        Result<String> imageUrl = await FirebaseService.uploadImage(product.images[i], imageName);
         // to add image list
-        if (imageUrl.data != null && imageUrl.status == Status.completed) product.images[i] = imageUrl.data!;
+        if (imageUrl.data != null && imageUrl.status == Status.success) product.images[i] = imageUrl.data!;
       }
     }
 
@@ -52,9 +52,9 @@ class ProductsProvider extends ChangeNotifier {
     }
 
     // Updating data in firebase
-    var productResponse = await FirebaseService.updateProduct(product);
-    if (productResponse.data != null && productResponse.status == Status.completed) {
-      var newProduct = productResponse.data!;
+    var productResult = await FirebaseService.updateProduct(product);
+    if (productResult.data != null && productResult.status == Status.success) {
+      var newProduct = productResult.data!;
       // Checking old product index
       int productIndex = _products.indexWhere((element) => element.docId == newProduct.docId);
       if (productIndex != -1) {
@@ -73,18 +73,18 @@ class ProductsProvider extends ChangeNotifier {
       String imageExtension = image.substring(image.lastIndexOf("."));
       String imageName = 'IMG ${DateTime.now().millisecondsSinceEpoch}$imageExtension';
       // Upload image to firebase storage
-      Response<String> imageUrl = await FirebaseService.uploadImage(image, imageName);
+      Result<String> imageUrl = await FirebaseService.uploadImage(image, imageName);
       // to add image list
-      if (imageUrl.data != null && imageUrl.status == Status.completed) imagesUrls.add(imageUrl.data!);
+      if (imageUrl.data != null && imageUrl.status == Status.success) imagesUrls.add(imageUrl.data!);
     }
     //Setting image url to product
     product.images = imagesUrls;
 
     // Uploading product
-    var productResponse = await FirebaseService.createProduct(product);
-    if (productResponse.data != null && productResponse.status == Status.completed) {
+    var productResult = await FirebaseService.createProduct(product);
+    if (productResult.data != null && productResult.status == Status.success) {
       // Add product to list
-      _products.add(productResponse.data!);
+      _products.add(productResult.data!);
       notifyListeners();
     }
   }

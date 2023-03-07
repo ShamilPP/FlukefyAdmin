@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/brand.dart';
-import '../../../model/response.dart';
+import '../../../model/result.dart';
 
 class BrandsScreen extends StatelessWidget {
   BrandsScreen({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class BrandsScreen extends StatelessWidget {
       body: Consumer<BrandsProvider>(
         builder: (ctx, provider, child) {
           List<Brand> brands = provider.brands;
-          if (provider.brandsStatus == Status.completed) {
+          if (provider.brandsStatus == Status.success) {
             return ListView.separated(
               itemCount: brands.length,
               separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),

@@ -6,10 +6,10 @@ import 'package:flukefy_admin/model/brand.dart';
 import 'package:flukefy_admin/model/user.dart';
 
 import '../model/product.dart';
-import '../model/response.dart';
+import '../model/result.dart';
 
 class FirebaseService {
-  static Future<Response<List<Product>>> getAllProducts() async {
+  static Future<Result<List<Product>>> getAllProducts() async {
     try {
       List<Product> products = [];
 
@@ -27,13 +27,13 @@ class FirebaseService {
           discount: product.get('discount'),
         ));
       }
-      return Response.completed(products);
+      return Result.success(products);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<List<Brand>>> getAllCategory() async {
+  static Future<Result<List<Brand>>> getAllCategory() async {
     try {
       List<Brand> categorys = [];
 
@@ -46,13 +46,13 @@ class FirebaseService {
         ));
       }
 
-      return Response.completed(categorys);
+      return Result.success(categorys);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<List<User>>> getAllUsers() async {
+  static Future<Result<List<User>>> getAllUsers() async {
     try {
       List<User> users = [];
 
@@ -68,13 +68,13 @@ class FirebaseService {
         ));
       }
 
-      return Response.completed(users);
+      return Result.success(users);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<Product>> createProduct(Product product) async {
+  static Future<Result<Product>> createProduct(Product product) async {
     try {
       var products = FirebaseFirestore.instance.collection('products');
       var result = await products.add({
@@ -90,13 +90,13 @@ class FirebaseService {
       var newProduct = product;
       newProduct.docId = result.id;
 
-      return Response.completed(newProduct);
+      return Result.success(newProduct);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<Brand>> createCategory(Brand brand) async {
+  static Future<Result<Brand>> createCategory(Brand brand) async {
     try {
       var category = FirebaseFirestore.instance.collection('category');
       var result = await category.add({
@@ -105,29 +105,29 @@ class FirebaseService {
       });
       var newBrand = brand;
       newBrand.docId = result.id;
-      return Response.completed(newBrand);
+      return Result.success(newBrand);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<String>> uploadImage(String imagePath, String fileName) async {
+  static Future<Result<String>> uploadImage(String imagePath, String fileName) async {
     try {
       final firebaseStorage = FirebaseStorage.instance;
       var file = File(imagePath);
       var snapshot = await firebaseStorage.ref().child('product/images/$fileName').putFile(file);
       String imageUrl = await snapshot.ref.getDownloadURL();
-      return Response.completed(imageUrl);
+      return Result.success(imageUrl);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<Product>> updateProduct(Product product) async {
+  static Future<Result<Product>> updateProduct(Product product) async {
     try {
       var products = FirebaseFirestore.instance.collection('products');
       await products.doc(product.docId).update({
-        'images' : product.images,
+        'images': product.images,
         'name': product.name,
         'description': product.description,
         'category': product.brandId,
@@ -136,63 +136,63 @@ class FirebaseService {
         'discount': product.discount,
       });
 
-      return Response.completed(product);
+      return Result.success(product);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<bool>> removeProduct(Product product) async {
+  static Future<Result<bool>> removeProduct(Product product) async {
     try {
       for (int i = 0; i < product.images.length; i++) {
         await FirebaseStorage.instance.refFromURL(product.images[i]).delete();
       }
       var products = FirebaseFirestore.instance.collection('products');
       await products.doc(product.docId).delete();
-      return Response.completed(true);
+      return Result.success(true);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<bool>> removeCategory(Brand brand) async {
+  static Future<Result<bool>> removeCategory(Brand brand) async {
     try {
       var categorys = FirebaseFirestore.instance.collection('category');
       await categorys.doc(brand.docId).delete();
-      return Response.completed(true);
+      return Result.success(true);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<bool>> removeImage(String url) async {
+  static Future<Result<bool>> removeImage(String url) async {
     try {
       await FirebaseStorage.instance.refFromURL(url).delete();
-      return Response.completed(true);
+      return Result.success(true);
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
   }
 
-  static Future<Response<int>> getUpdateCode() async {
+  static Future<Result<int>> getUpdateCode() async {
     int code;
     DocumentSnapshot<Map<String, dynamic>> doc;
     try {
       doc = await FirebaseFirestore.instance.collection('application').doc('update').get();
     } catch (e) {
-      return Response.error('Error detected : $e');
+      return Result.error('Error detected : $e');
     }
     // check document exists ( avoiding null exceptions )
     if (doc.exists && doc.data()!.containsKey("admin")) {
       // if document exists, fetch version in firebase
       try {
         code = doc['admin'];
-        return Response.completed(code);
+        return Result.success(code);
       } catch (e) {
-        return Response.error('Error detected : $e');
+        return Result.error('Error detected : $e');
       }
     } else {
-      return Response.error('Error detected : Update code fetching problem');
+      return Result.error('Error detected : Update code fetching problem');
     }
   }
 }
