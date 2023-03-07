@@ -1,3 +1,4 @@
+import 'package:flukefy_admin/view_model/users_provider.dart';
 import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -28,6 +29,7 @@ class SplashProvider extends ChangeNotifier {
   void loadFromFirebase(BuildContext context) async {
     Provider.of<ProductsProvider>(context, listen: false).loadProducts();
     Provider.of<BrandsProvider>(context, listen: false).loadBrands();
+    Provider.of<UsersProvider>(context, listen: false).loadUsers();
   }
 
   void showUpdateDialog(BuildContext context) {

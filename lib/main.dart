@@ -4,6 +4,7 @@ import 'package:flukefy_admin/view/screens/splash/splash_screen.dart';
 import 'package:flukefy_admin/view_model/brand_provider.dart';
 import 'package:flukefy_admin/view_model/products_provider.dart';
 import 'package:flukefy_admin/view_model/splash_provider.dart';
+import 'package:flukefy_admin/view_model/users_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => SplashProvider()),
+        ChangeNotifierProvider(create: (_) => UsersProvider()),
         ChangeNotifierProvider(create: (_) => ProductsProvider()),
         ChangeNotifierProvider(create: (_) => BrandsProvider()),
       ],

@@ -13,10 +13,10 @@ class BrandsProvider extends ChangeNotifier {
   Status get brandsStatus => _brandsStatus;
 
   void loadBrands() {
-    FirebaseService.getAllCategory().then((Result) {
-      _brandsStatus = Result.status;
-      if (_brandsStatus == Status.success && Result.data != null) {
-        _brands = Result.data!;
+    FirebaseService.getAllCategory().then((result) {
+      _brandsStatus = result.status;
+      if (_brandsStatus == Status.success && result.data != null) {
+        _brands = result.data!;
       } else {
         _brands = [];
       }

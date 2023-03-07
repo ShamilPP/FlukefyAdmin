@@ -14,10 +14,10 @@ class ProductsProvider extends ChangeNotifier {
   Status get productsStatus => _productsStatus;
 
   void loadProducts() {
-    FirebaseService.getAllProducts().then((Result) {
-      _productsStatus = Result.status;
-      if (_productsStatus == Status.success && Result.data != null) {
-        _products = Result.data!;
+    FirebaseService.getAllProducts().then((result) {
+      _productsStatus = result.status;
+      if (_productsStatus == Status.success && result.data != null) {
+        _products = result.data!;
       } else {
         _products = [];
       }
