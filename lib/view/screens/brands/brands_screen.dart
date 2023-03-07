@@ -23,7 +23,7 @@ class BrandsScreen extends StatelessWidget {
       body: Consumer<BrandsProvider>(
         builder: (ctx, provider, child) {
           List<Brand> brands = provider.brands;
-          if (provider.brandsStatus == Status.success) {
+          if (provider.status == Status.success) {
             return ListView.separated(
               itemCount: brands.length,
               separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
@@ -54,11 +54,11 @@ class BrandsScreen extends StatelessWidget {
                 );
               },
             );
-          } else if (provider.brandsStatus == Status.loading) {
+          } else if (provider.status == Status.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.brandsStatus == Status.error) {
+          } else if (provider.status == Status.error) {
             return const Center(
               child: Text("Error"),
             );

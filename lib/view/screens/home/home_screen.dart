@@ -55,13 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Consumer<ProductsProvider>(
         builder: (ctx, provider, child) {
           List<Product> products = provider.products;
-          if (provider.productsStatus == Status.success) {
+          if (provider.status == Status.success) {
             return body(products);
-          } else if (provider.productsStatus == Status.loading) {
+          } else if (provider.status == Status.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.productsStatus == Status.error) {
+          } else if (provider.status == Status.error) {
             return const Center(
               child: Text("Error"),
             );

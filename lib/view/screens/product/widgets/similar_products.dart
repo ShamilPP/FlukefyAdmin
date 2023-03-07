@@ -21,7 +21,7 @@ class SimilarProducts extends StatelessWidget {
         const Text('Similar Products', style: TextStyle(fontSize: 19)),
         const SizedBox(height: 10),
         Consumer<ProductsProvider>(builder: (ctx, provider, child) {
-          var status = provider.productsStatus;
+          var status = provider.status;
           if (status == Status.loading) {
             return SizedBox(
               height: 300,

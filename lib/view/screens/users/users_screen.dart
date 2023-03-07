@@ -18,7 +18,7 @@ class UsersScreen extends StatelessWidget {
       body: Consumer<UsersProvider>(
         builder: (ctx, provider, child) {
           List<User> users = provider.users;
-          if (provider.usersStatus == Status.success) {
+          if (provider.status == Status.success) {
             return ListView.separated(
               itemCount: users.length,
               separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
@@ -28,11 +28,11 @@ class UsersScreen extends StatelessWidget {
                 );
               },
             );
-          } else if (provider.usersStatus == Status.loading) {
+          } else if (provider.status == Status.loading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (provider.usersStatus == Status.error) {
+          } else if (provider.status == Status.error) {
             return const Center(
               child: Text("Error"),
             );

@@ -6,16 +6,16 @@ import '../model/result.dart';
 
 class BrandsProvider extends ChangeNotifier {
   List<Brand> _brands = [];
-  Status _brandsStatus = Status.loading;
+  Status _status = Status.loading;
 
   List<Brand> get brands => _brands;
 
-  Status get brandsStatus => _brandsStatus;
+  Status get status => _status;
 
   void loadBrands() {
     FirebaseService.getAllCategory().then((result) {
-      _brandsStatus = result.status;
-      if (_brandsStatus == Status.success && result.data != null) {
+      _status = result.status;
+      if (_status == Status.success && result.data != null) {
         _brands = result.data!;
       } else {
         _brands = [];

@@ -7,16 +7,16 @@ import '../model/result.dart';
 
 class ProductsProvider extends ChangeNotifier {
   List<Product> _products = [];
-  Status _productsStatus = Status.loading;
+  Status _status = Status.loading;
 
   List<Product> get products => _products;
 
-  Status get productsStatus => _productsStatus;
+  Status get status => _status;
 
   void loadProducts() {
     FirebaseService.getAllProducts().then((result) {
-      _productsStatus = result.status;
-      if (_productsStatus == Status.success && result.data != null) {
+      _status = result.status;
+      if (_status == Status.success && result.data != null) {
         _products = result.data!;
       } else {
         _products = [];
