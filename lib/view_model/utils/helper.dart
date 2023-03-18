@@ -27,6 +27,22 @@ Brand? getBrand(BuildContext context, String docId) {
   }
 }
 
+String getLastSeen(DateTime dateTime) {
+  DateTime currentTime = DateTime.now();
+  Duration balanceTime = currentTime.difference(dateTime);
+  if (balanceTime.inDays > 1) {
+    return '${balanceTime.inDays} Days ago';
+  } else if (balanceTime.inHours > 1) {
+    return '${balanceTime.inHours} Hours ago';
+  } else if (balanceTime.inMinutes > 1) {
+    return '${balanceTime.inMinutes} Minutes ago';
+  } else if (balanceTime.inSeconds > 1) {
+    return '${balanceTime.inSeconds} Seconds ago';
+  } else {
+    return 'Invalid';
+  }
+}
+
 extension CheckingLink on String {
   bool get isLink => contains('https://') && !contains(' ');
 }

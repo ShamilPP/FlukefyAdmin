@@ -4,6 +4,8 @@ class User {
   final String name;
   final String email;
   final int phone;
+  final DateTime createdTime;
+  final DateTime lastLoggedTime;
 
   User({
     required this.docId,
@@ -11,5 +13,7 @@ class User {
     required this.name,
     required this.email,
     required this.phone,
+    required this.createdTime,
+    required this.lastLoggedTime,
   });
 }

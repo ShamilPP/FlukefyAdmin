@@ -6,6 +6,8 @@ import '../model/result.dart';
 
 class BrandsProvider extends ChangeNotifier {
   List<Brand> _brands = [];
+
+  // Brands fetching status
   Status _status = Status.loading;
 
   List<Brand> get brands => _brands;

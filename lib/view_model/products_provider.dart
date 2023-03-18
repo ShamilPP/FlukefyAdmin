@@ -7,6 +7,8 @@ import '../model/result.dart';
 
 class ProductsProvider extends ChangeNotifier {
   List<Product> _products = [];
+
+  // Products fetching status
   Status _status = Status.loading;
 
   List<Product> get products => _products;

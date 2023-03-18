@@ -6,6 +6,8 @@ import '../model/result.dart';
 
 class UsersProvider extends ChangeNotifier {
   List<User> _users = [];
+
+  // Users fetching status
   Status _status = Status.loading;
 
   List<User> get users => _users;

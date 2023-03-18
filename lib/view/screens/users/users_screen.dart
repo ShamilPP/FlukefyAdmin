@@ -1,3 +1,5 @@
+import 'package:flukefy_admin/utils/colors.dart';
+import 'package:flukefy_admin/view/screens/users/widgets/user_card.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +14,7 @@ class UsersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
       appBar: const CurvedAppBar(
         title: 'Users',
       ),
@@ -19,13 +22,10 @@ class UsersScreen extends StatelessWidget {
         builder: (ctx, provider, child) {
           List<User> users = provider.users;
           if (provider.status == Status.success) {
-            return ListView.separated(
+            return ListView.builder(
               itemCount: users.length,
-              separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
               itemBuilder: (buildContext, index) {
-                return ListTile(
-                  title: Text(users[index].name),
-                );
+                return UserCard(user: users[index]);
               },
             );
           } else if (provider.status == Status.loading) {

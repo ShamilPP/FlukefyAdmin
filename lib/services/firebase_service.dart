@@ -65,6 +65,8 @@ class FirebaseService {
           name: user.get('name'),
           email: user.get('email'),
           phone: user.get('phone'),
+          createdTime: (user.get('createdTime') as Timestamp).toDate(),
+          lastLoggedTime: (user.get('lastLogged') as Timestamp).toDate(),
         ));
       }
 
