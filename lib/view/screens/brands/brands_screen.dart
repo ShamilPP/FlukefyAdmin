@@ -1,3 +1,6 @@
+import 'package:flukefy_admin/utils/colors.dart';
+import 'package:flukefy_admin/view/animations/slide_animation.dart';
+import 'package:flukefy_admin/view/screens/brands/widgets/brand_card.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
@@ -17,41 +20,16 @@ class BrandsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CurvedAppBar(
-        title: 'Brands',
-      ),
+      backgroundColor: backgroundColor,
+      appBar: const CurvedAppBar(title: 'Brands'),
       body: Consumer<BrandsProvider>(
         builder: (ctx, provider, child) {
           List<Brand> brands = provider.brands;
           if (provider.status == Status.success) {
-            return ListView.separated(
+            return ListView.builder(
               itemCount: brands.length,
-              separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
               itemBuilder: (buildContext, index) {
-                return ListTile(
-                  title: Text(brands[index].name),
-                  trailing: IconButton(
-                    tooltip: 'Delete',
-                    icon: Icon(
-                      Icons.delete,
-                      color: Colors.red[800],
-                    ),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (ctx) => CurvedDialog(
-                          title: 'Delete ${brands[index].name}',
-                          content: const Text('Are you sure you want to delete brand'),
-                          closeButton: true,
-                          button: BlackButton(
-                            title: 'Delete',
-                            onPressed: () => deleteBrand(context, brands[index]),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                );
+                return SlideAnimation(delay: index * 100, child: BrandCard(brand: brands[index]));
               },
             );
           } else if (provider.status == Status.loading) {
@@ -114,33 +92,5 @@ class BrandsScreen extends StatelessWidget {
     } else {
       showDialog(context: context, builder: (ctx) => const CurvedDialog(title: 'Brand name is empty'));
     }
-  }
-
-  void deleteBrand(BuildContext context, Brand brand) async {
-    // Close confirmation dialog
-    Navigator.pop(context);
-    // Show 'deleting' dialog
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (ctx) {
-          return AlertDialog(
-            content: Row(
-              children: const [
-                CircularProgressIndicator(),
-                SizedBox(width: 25),
-                Text(
-                  'Deleting....',
-                  style: TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-          );
-        });
-
-    await Provider.of<BrandsProvider>(context, listen: false).deleteBrand(context, brand);
-
-    //Close Dialog
-    Navigator.pop(context);
   }
 }

@@ -30,14 +30,14 @@ Brand? getBrand(BuildContext context, String docId) {
 String getLastSeen(DateTime dateTime) {
   DateTime currentTime = DateTime.now();
   Duration balanceTime = currentTime.difference(dateTime);
-  if (balanceTime.inDays > 1) {
-    return '${balanceTime.inDays} Days ago';
-  } else if (balanceTime.inHours > 1) {
-    return '${balanceTime.inHours} Hours ago';
-  } else if (balanceTime.inMinutes > 1) {
-    return '${balanceTime.inMinutes} Minutes ago';
-  } else if (balanceTime.inSeconds > 1) {
+  if (balanceTime.inSeconds < 60) {
     return '${balanceTime.inSeconds} Seconds ago';
+  } else if (balanceTime.inMinutes < 60) {
+    return '${balanceTime.inMinutes} Minutes ago';
+  } else if (balanceTime.inHours < 24) {
+    return '${balanceTime.inHours} Hours ago';
+  } else if (balanceTime.inDays < 24) {
+    return '${balanceTime.inDays} Days ago';
   } else {
     return 'Invalid';
   }

@@ -12,7 +12,7 @@ class UserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(5),
+      padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
         child: InkWell(
@@ -33,7 +33,7 @@ class UserCard extends StatelessWidget {
                       delay: 100,
                       child: Text(
                         user.name,
-                        style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                       ),
                     ),
                     const SizedBox(height: 5),
@@ -41,14 +41,17 @@ class UserCard extends StatelessWidget {
                       delay: 300,
                       child: Text(
                         user.email,
-                        style: const TextStyle(fontSize: 15, color: Colors.grey),
+                        style: const TextStyle(fontSize: 13, color: Colors.grey),
                       ),
                     ),
                   ],
                 ),
-                Text(
-                  getLastSeen(user.lastLoggedTime),
-                  style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
+                SlideAnimation(
+                  delay: 500,
+                  child: Text(
+                    getLastSeen(user.lastLoggedTime),
+                    style: TextStyle(fontSize: 11, color: Colors.grey.shade800),
+                  ),
                 ),
               ],
             ),
@@ -65,21 +68,33 @@ class UserCard extends StatelessWidget {
           return AlertDialog(
               content: Wrap(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 7),
-                child: Text('Name : ${user.name}', style: const TextStyle(fontSize: 17)),
+              SlideAnimation(
+                delay: 100,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Text('Name : ${user.name}', style: const TextStyle(fontSize: 17)),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 7),
-                child: Text('Phone : ${user.phone}', style: const TextStyle(fontSize: 17)),
+              SlideAnimation(
+                delay: 200,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Text('Phone : ${user.phone}', style: const TextStyle(fontSize: 17)),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 7),
-                child: Text('Email : ${user.email}', style: const TextStyle(fontSize: 17)),
+              SlideAnimation(
+                delay: 300,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Text('Email : ${user.email}', style: const TextStyle(fontSize: 17)),
+                ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 7),
-                child: Text('Last seen : ${getLastSeen(user.lastLoggedTime)}', style: const TextStyle(fontSize: 17)),
+              SlideAnimation(
+                delay: 400,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Text('Last seen : ${getLastSeen(user.lastLoggedTime)}', style: const TextStyle(fontSize: 17)),
+                ),
               ),
             ],
           ));

@@ -1,5 +1,6 @@
+import 'package:flukefy_admin/utils/colors.dart';
 import 'package:flukefy_admin/view/screens/add_product/add_product_screen.dart';
-import 'package:flukefy_admin/view/screens/home/widgets/product_tile.dart';
+import 'package:flukefy_admin/view/screens/home/widgets/product_card.dart';
 import 'package:flukefy_admin/view/screens/orders/orders_screen.dart';
 import 'package:flukefy_admin/view/screens/users/users_screen.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
@@ -52,6 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           )),
+      backgroundColor: backgroundColor,
       body: Consumer<ProductsProvider>(
         builder: (ctx, provider, child) {
           List<Product> products = provider.products;
@@ -80,11 +82,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget body(List<Product> products) {
-    return ListView.separated(
+    return ListView.builder(
       itemCount: products.length,
-      separatorBuilder: (buildContext, index) => const Divider(height: 13, thickness: 1),
       itemBuilder: (buildContext, index) {
-        return ProductTile(product: products[index]);
+        return ProductCard(product: products[index]);
       },
     );
   }
