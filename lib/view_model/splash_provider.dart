@@ -19,7 +19,7 @@ class SplashProvider extends ChangeNotifier {
       // If update code is not matching, show update dialog
       showUpdateDialog(context);
       // If update code fetching problem, show error in toast
-      if (serverUpdateCode.status != Status.success) showToast(serverUpdateCode.message!, Colors.red);
+      if (serverUpdateCode.status != Status.success) Helper.showToast(serverUpdateCode.message!, Colors.red);
     } else {
       loadFromFirebase(context);
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));

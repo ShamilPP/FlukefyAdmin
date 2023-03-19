@@ -10,6 +10,7 @@ import 'package:provider/provider.dart';
 
 import '../../../model/product.dart';
 import '../../../model/result.dart';
+import '../../animations/slide_animation.dart';
 import '../brands/brands_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -72,11 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (_) => const AddProductScreen()));
-        },
+      floatingActionButton: SlideAnimation(
+        delay: 600,
+        child: FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (_) => const AddProductScreen()));
+          },
+        ),
       ),
     );
   }

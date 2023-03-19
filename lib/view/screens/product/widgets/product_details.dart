@@ -47,8 +47,8 @@ class ProductDetails extends StatelessWidget {
                   // Brand
                   FadeAnimation(
                     delay: 100,
-                    child:
-                        Text(getBrand(context, product.brandId)!.name, style: const TextStyle(color: Colors.grey, fontSize: 16)),
+                    child: Text(Helper.getBrand(context, product.brandId)!.name,
+                        style: const TextStyle(color: Colors.grey, fontSize: 16)),
                   ),
                   const SizedBox(height: 5),
                   // Product name

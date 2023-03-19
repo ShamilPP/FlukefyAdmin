@@ -1,8 +1,10 @@
 import 'package:flukefy_admin/model/product.dart';
 import 'package:flukefy_admin/utils/colors.dart';
+import 'package:flukefy_admin/view/animations/slide_animation.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/brand_selector.dart';
 import 'package:flukefy_admin/view/screens/add_product/widgets/image_selector.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
+import 'package:flukefy_admin/view/widgets/general/curved_app_bar.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
 import 'package:flukefy_admin/view/widgets/text_field/outlined_text_field.dart';
 import 'package:flukefy_admin/view_model/products_provider.dart';
@@ -61,39 +63,49 @@ class _AddProductScreenState extends State<AddProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(widget.isUpdateProduct ? 'Edit product' : 'Add product')),
+      appBar: CurvedAppBar(title: widget.isUpdateProduct ? 'Edit product' : 'Add product'),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const ImageSelector(),
+            const SlideAnimation(delay: 200, child: ImageSelector()),
             // TextFields
-            OutlinedTextField(hint: 'Name', controller: nameController),
-            OutlinedTextField(hint: 'Description', controller: descController, maxLines: 5),
-            const BrandSelector(),
-            OutlinedTextField(hint: 'Rating', controller: ratingController, numberKeyboard: true),
-            OutlinedTextField(
-              hint: 'Price',
-              controller: priceController,
-              numberKeyboard: true,
-              onChanged: updateDiscountPrice,
+            SlideAnimation(delay: 300, child: OutlinedTextField(hint: 'Name', controller: nameController)),
+            SlideAnimation(delay: 400, child: OutlinedTextField(hint: 'Description', controller: descController, maxLines: 5)),
+            SlideAnimation(delay: 500, child: const BrandSelector()),
+            SlideAnimation(
+                delay: 600, child: OutlinedTextField(hint: 'Rating', controller: ratingController, numberKeyboard: true)),
+            SlideAnimation(
+              delay: 700,
+              child: OutlinedTextField(
+                hint: 'Price',
+                controller: priceController,
+                numberKeyboard: true,
+                onChanged: updateDiscountPrice,
+              ),
             ),
-            OutlinedTextField(
-              hint: 'Discount %',
-              controller: discountController,
-              numberKeyboard: true,
-              suffixText: '₹$discountPrice',
-              onChanged: updateDiscountPrice,
+            SlideAnimation(
+              delay: 800,
+              child: OutlinedTextField(
+                hint: 'Discount %',
+                controller: discountController,
+                numberKeyboard: true,
+                suffixText: '₹$discountPrice',
+                onChanged: updateDiscountPrice,
+              ),
             ),
 
             // Upload button
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: RoundedLoadingButton(
-                controller: buttonController,
-                color: primaryColor,
-                successColor: Colors.green,
-                onPressed: uploadProduct,
-                child: Text(widget.isUpdateProduct ? 'Update' : 'Upload'),
+              child: SlideAnimation(
+                delay: 900,
+                child: RoundedLoadingButton(
+                  controller: buttonController,
+                  color: primaryColor,
+                  successColor: Colors.green,
+                  onPressed: uploadProduct,
+                  child: Text(widget.isUpdateProduct ? 'Update' : 'Upload'),
+                ),
               ),
             ),
           ],

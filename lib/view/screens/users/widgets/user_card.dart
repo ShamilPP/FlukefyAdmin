@@ -1,6 +1,7 @@
 import 'package:flukefy_admin/model/user.dart';
 import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../animations/slide_animation.dart';
 
@@ -14,9 +15,9 @@ class UserCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: InkWell(
-          borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(10),
           onTap: () {
             showUserDialog(context);
           },
@@ -49,7 +50,7 @@ class UserCard extends StatelessWidget {
                 SlideAnimation(
                   delay: 500,
                   child: Text(
-                    getLastSeen(user.lastLoggedTime),
+                    Helper.dateCovertToString(date: user.lastLoggedTime, type: DateConvert.lastseen),
                     style: TextStyle(fontSize: 11, color: Colors.grey.shade800),
                   ),
                 ),
@@ -63,10 +64,10 @@ class UserCard extends StatelessWidget {
 
   showUserDialog(BuildContext context) {
     showDialog(
-        context: context,
-        builder: (ctx) {
-          return AlertDialog(
-              content: Wrap(
+      context: context,
+      builder: (ctx) {
+        return AlertDialog(
+          content: Wrap(
             children: [
               SlideAnimation(
                 delay: 100,
@@ -93,11 +94,38 @@ class UserCard extends StatelessWidget {
                 delay: 400,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7),
-                  child: Text('Last seen : ${getLastSeen(user.lastLoggedTime)}', style: const TextStyle(fontSize: 17)),
+                  child: Text('Last seen : ${Helper.dateCovertToString(date: user.lastLoggedTime, type: DateConvert.lastseen)}',
+                      style: const TextStyle(fontSize: 17)),
                 ),
               ),
+              SlideAnimation(
+                delay: 500,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 7),
+                  child: Text('Joined date : ${Helper.dateCovertToString(date: user.createdTime, type: DateConvert.normal)}',
+                      style: const TextStyle(fontSize: 17)),
+                ),
+              ),
+              const SizedBox(height: 45),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton.icon(
+                    onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
+                    icon: const Icon(Icons.block),
+                    label: const Text('Block'),
+                  ),
+                  ElevatedButton.icon(
+                    onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
+                    icon: const Icon(Icons.delete_outline),
+                    label: const Text('Delete'),
+                  ),
+                ],
+              )
             ],
-          ));
-        });
+          ),
+        );
+      },
+    );
   }
 }

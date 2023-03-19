@@ -16,20 +16,24 @@ class BrandCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(brand.name),
-              IconButton(
-                tooltip: 'Delete',
-                icon: Icon(
-                  Icons.delete,
-                  color: Colors.red[800],
+              PopupMenuButton<String>(
+                icon: const Icon(
+                  Icons.more_vert,
+                  color: Colors.black,
                 ),
-                onPressed: () {
+                itemBuilder: (BuildContext context) {
+                  return [
+                    const PopupMenuItem<String>(child: Text('Delete')),
+                  ];
+                },
+                onSelected: (selected) async {
                   showDialog(
                     context: context,
                     builder: (ctx) => CurvedDialog(

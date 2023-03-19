@@ -1,4 +1,5 @@
 import 'package:flukefy_admin/model/product.dart';
+import 'package:flukefy_admin/view/animations/slide_animation.dart';
 import 'package:flukefy_admin/view/screens/add_product/add_product_screen.dart';
 import 'package:flukefy_admin/view/widgets/buttons/black_button.dart';
 import 'package:flukefy_admin/view/widgets/general/curved_dialog.dart';
@@ -21,9 +22,9 @@ class ProductCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 6),
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         child: InkWell(
-          borderRadius: BorderRadius.circular(7),
+          borderRadius: BorderRadius.circular(10),
           onTap: () {
             Navigator.push(
                 context,
@@ -36,67 +37,79 @@ class ProductCard extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: ListTile(
-              title: Text(
-                product.name,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: '₹${product.price - (product.price * product.discount ~/ 100)}\t ',
-                        style: TextStyle(
-                          color: Colors.red[700],
-                          fontSize: 16,
-                        )),
-                    TextSpan(
-                      text: '₹${product.price}',
-                      style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 14),
+              leading: SlideAnimation(
+                delay: 200,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(7),
+                  child: Hero(
+                    tag: imageHeroTag,
+                    child: Image.network(
+                      product.images[0],
+                      height: 70,
+                      width: 80,
+                      fit: BoxFit.cover,
+                      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const SizedBox(
+                            height: 70, width: 80, child: Center(child: SpinKitPulse(color: Colors.black, size: 20)));
+                      },
                     ),
-                  ],
-                ),
-              ),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(7),
-                child: Hero(
-                  tag: imageHeroTag,
-                  child: Image.network(
-                    product.images[0],
-                    height: 70,
-                    width: 80,
-                    fit: BoxFit.cover,
-                    loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return const SizedBox(
-                          height: 70, width: 80, child: Center(child: SpinKitPulse(color: Colors.black, size: 20)));
-                    },
                   ),
                 ),
               ),
-              trailing: PopupMenuButton<String>(
-                icon: const Icon(
-                  Icons.more_vert,
-                  color: Colors.black,
+              title: SlideAnimation(
+                delay: 300,
+                child: Text(
+                  product.name,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                itemBuilder: (BuildContext context) {
-                  return {'Edit', 'Delete'}.map((String choice) {
-                    return PopupMenuItem<String>(
-                      value: choice,
-                      child: Text(choice),
-                    );
-                  }).toList();
-                },
-                onSelected: (selected) async {
-                  switch (selected) {
-                    case 'Edit':
-                      Navigator.push(
-                          context, MaterialPageRoute(builder: (_) => AddProductScreen(isUpdateProduct: true, product: product)));
-                      break;
-                    case 'Delete':
-                      deleteProduct(context);
-                      break;
-                  }
-                },
+              ),
+              subtitle: SlideAnimation(
+                delay: 400,
+                child: RichText(
+                  text: TextSpan(
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: '₹${product.price - (product.price * product.discount ~/ 100)}\t ',
+                          style: TextStyle(
+                            color: Colors.red[700],
+                            fontSize: 16,
+                          )),
+                      TextSpan(
+                        text: '₹${product.price}',
+                        style: const TextStyle(color: Colors.grey, decoration: TextDecoration.lineThrough, fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              trailing: SlideAnimation(
+                delay: 500,
+                child: PopupMenuButton<String>(
+                  icon: const Icon(
+                    Icons.more_vert,
+                    color: Colors.black,
+                  ),
+                  itemBuilder: (BuildContext context) {
+                    return {'Edit', 'Delete'}.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(choice),
+                      );
+                    }).toList();
+                  },
+                  onSelected: (selected) async {
+                    switch (selected) {
+                      case 'Edit':
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (_) => AddProductScreen(isUpdateProduct: true, product: product)));
+                        break;
+                      case 'Delete':
+                        deleteProduct(context);
+                        break;
+                    }
+                  },
+                ),
               ),
             ),
           ),
