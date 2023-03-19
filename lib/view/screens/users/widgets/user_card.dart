@@ -106,7 +106,7 @@ class UserCard extends StatelessWidget {
                       style: const TextStyle(fontSize: 17)),
                 ),
               ),
-              const SizedBox(height: 45),
+              const SizedBox(height: 40),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

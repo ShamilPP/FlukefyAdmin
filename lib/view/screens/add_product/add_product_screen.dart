@@ -138,7 +138,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     price ??= 0;
     discount ??= 0;
 
-    if (name != '' && desc != '' && brandId != null && (5 > rating && 1 < rating) && price != 0 && images.isNotEmpty) {
+    if (name != '' && desc != '' && brandId != null && (rating >= 1 && rating <= 5) && price != 0 && images.isNotEmpty) {
       Product product = Product(
         docId: widget.isUpdateProduct ? widget.product!.docId : null,
         name: name,
