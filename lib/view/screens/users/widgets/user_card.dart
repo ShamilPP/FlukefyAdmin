@@ -67,60 +67,59 @@ class UserCard extends StatelessWidget {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          content: Wrap(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SlideAnimation(
                 delay: 100,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: Text('Name : ${user.name}', style: const TextStyle(fontSize: 17)),
-                ),
+                child: Padding(padding: const EdgeInsets.only(top: 7), child: Text('Name : ${user.name}')),
               ),
               SlideAnimation(
                 delay: 200,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: Text('Phone : ${user.phone}', style: const TextStyle(fontSize: 17)),
-                ),
+                child: Padding(padding: const EdgeInsets.only(top: 7), child: Text('Phone : ${user.phone}')),
               ),
               SlideAnimation(
                 delay: 300,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 7),
-                  child: Text('Email : ${user.email}', style: const TextStyle(fontSize: 17)),
-                ),
+                child: Padding(padding: const EdgeInsets.only(top: 7), child: Text('Email : ${user.email}')),
               ),
               SlideAnimation(
                 delay: 400,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7),
-                  child: Text('Last seen : ${Helper.dateCovertToString(date: user.lastLoggedTime, type: DateConvert.lastseen)}',
-                      style: const TextStyle(fontSize: 17)),
+                  child: Text(
+                    'Last seen : ${Helper.dateCovertToString(date: user.lastLoggedTime, type: DateConvert.lastseen)}',
+                  ),
                 ),
               ),
               SlideAnimation(
                 delay: 500,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7),
-                  child: Text('Joined date : ${Helper.dateCovertToString(date: user.createdTime, type: DateConvert.normal)}',
-                      style: const TextStyle(fontSize: 17)),
+                  child: Text(
+                    'Joined date : ${Helper.dateCovertToString(date: user.createdTime, type: DateConvert.normal)}',
+                    style: const TextStyle(fontSize: 17),
+                  ),
                 ),
               ),
-              const SizedBox(height: 40),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton.icon(
-                    onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
-                    icon: const Icon(Icons.block),
-                    label: const Text('Block'),
-                  ),
-                  ElevatedButton.icon(
-                    onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
-                    icon: const Icon(Icons.delete_outline),
-                    label: const Text('Delete'),
-                  ),
-                ],
+              const SizedBox(height: 15),
+              SlideAnimation(
+                delay: 600,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
+                      icon: const Icon(Icons.block),
+                      label: const Text('Block'),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
+                      icon: const Icon(Icons.delete_outline),
+                      label: const Text('Delete'),
+                    ),
+                  ],
+                ),
               )
             ],
           ),
