@@ -6,6 +6,7 @@ class Product {
   final String brandId;
   final double rating;
   final int price;
+  final int stock;
   final int discount;
 
   Product({
@@ -17,5 +18,6 @@ class Product {
     required this.rating,
     required this.price,
     required this.discount,
+    required this.stock,
   });
 }

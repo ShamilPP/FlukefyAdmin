@@ -34,6 +34,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final ratingController = TextEditingController();
   final priceController = TextEditingController();
   final discountController = TextEditingController();
+  final stockController = TextEditingController();
 
   int discountPrice = 0;
 
@@ -53,6 +54,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       ratingController.text = widget.product!.rating.toString();
       priceController.text = widget.product!.price.toString();
       discountController.text = widget.product!.discount.toString();
+      stockController.text = widget.product!.stock.toString();
       updateDiscountPrice(widget.product!.price.toString());
       BrandSelector.brandNotifier.value = widget.product!.brandId;
       ImageSelector.imagesNotifier.value = widget.product!.images;
@@ -86,19 +88,18 @@ class _AddProductScreenState extends State<AddProductScreen> {
             SlideAnimation(
               delay: 800,
               child: OutlinedTextField(
-                hint: 'Discount %',
-                controller: discountController,
-                numberKeyboard: true,
-                suffixText: '₹$discountPrice',
-                onChanged: updateDiscountPrice,
-              ),
+                  hint: 'Discount %', controller: discountController, numberKeyboard: true, suffixText: '₹$discountPrice'),
+            ),
+            SlideAnimation(
+              delay: 900,
+              child: OutlinedTextField(hint: 'Stock', controller: stockController, numberKeyboard: true),
             ),
 
             // Upload button
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SlideAnimation(
-                delay: 900,
+                delay: 1000,
                 child: RoundedLoadingButton(
                   controller: buttonController,
                   color: primaryColor,
@@ -132,13 +133,21 @@ class _AddProductScreenState extends State<AddProductScreen> {
     double? rating = double.tryParse(ratingController.text);
     int? price = int.tryParse(priceController.text);
     int? discount = int.tryParse(discountController.text);
+    int? stock = int.tryParse(stockController.text);
+
     List<String> images = ImageSelector.imagesNotifier.value;
 
     rating ??= 0;
     price ??= 0;
     discount ??= 0;
 
-    if (name != '' && desc != '' && brandId != null && (rating >= 1 && rating <= 5) && price != 0 && images.isNotEmpty) {
+    if (name != '' &&
+        desc != '' &&
+        brandId != null &&
+        (rating >= 1 && rating <= 5) &&
+        price != 0 &&
+        stock != null &&
+        images.isNotEmpty) {
       Product product = Product(
         docId: widget.isUpdateProduct ? widget.product!.docId : null,
         name: name,
@@ -147,6 +156,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         images: images,
         rating: rating,
         price: price,
+        stock: stock,
         discount: discount,
       );
 

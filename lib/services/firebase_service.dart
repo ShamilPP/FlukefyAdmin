@@ -24,6 +24,7 @@ class FirebaseService {
           brandId: product.get('category'),
           rating: product.get('rating'),
           price: product.get('price'),
+          stock: product.get('stock'),
           discount: product.get('discount'),
         ));
       }
@@ -87,6 +88,7 @@ class FirebaseService {
         'rating': product.rating,
         'price': product.price,
         'discount': product.discount,
+        'stock': product.stock,
       });
 
       var newProduct = product;
@@ -136,6 +138,7 @@ class FirebaseService {
         'rating': product.rating,
         'price': product.price,
         'discount': product.discount,
+        'stock': product.stock,
       });
 
       return Result.success(product);
