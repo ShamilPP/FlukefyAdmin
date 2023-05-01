@@ -158,6 +158,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         price: price,
         stock: stock,
         discount: discount,
+        createdTime: DateTime.now(),
       );
 
       // Show uploading dialog
