@@ -1,3 +1,4 @@
+import 'package:flukefy_admin/view_model/brand_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +11,9 @@ import '../../../animations/fade_animation.dart';
 import '../product_screen.dart';
 
 class SimilarProducts extends StatelessWidget {
-  const SimilarProducts({Key? key}) : super(key: key);
+  final String brandId;
+
+  const SimilarProducts({required this.brandId, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,8 @@ class SimilarProducts extends StatelessWidget {
               child: Center(child: SpinKitFadingCube(color: primaryColor, size: 25)),
             );
           } else if (status == Status.success) {
+            var brandProvider = Provider.of<BrandsProvider>(context, listen: false);
+            var products = brandProvider.getBrandProducts(brandId, provider.products);
             return GridView.builder(
               padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
@@ -36,7 +41,6 @@ class SimilarProducts extends StatelessWidget {
               itemCount: provider.products.length < 4 ? provider.products.length : 4,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 9 / 12),
               itemBuilder: (ctx, index) {
-                var products = provider.products.toList()..shuffle();
                 return productCard(context, products[index]);
               },
             );
