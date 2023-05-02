@@ -73,7 +73,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
             // TextFields
             SlideAnimation(delay: 300, child: OutlinedTextField(hint: 'Name', controller: nameController)),
             SlideAnimation(delay: 400, child: OutlinedTextField(hint: 'Description', controller: descController, maxLines: 5)),
-            SlideAnimation(delay: 500, child: const BrandSelector()),
+            const SlideAnimation(delay: 500, child: BrandSelector()),
             SlideAnimation(
                 delay: 600, child: OutlinedTextField(hint: 'Rating', controller: ratingController, numberKeyboard: true)),
             SlideAnimation(

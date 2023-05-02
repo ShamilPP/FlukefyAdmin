@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flukefy_admin/view_model/users_provider.dart';
 import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -13,16 +14,22 @@ import 'products_provider.dart';
 
 class SplashProvider extends ChangeNotifier {
   void init(BuildContext context) async {
-    Result<int> serverUpdateCode = await FirebaseService.getUpdateCode();
-
-    if (serverUpdateCode.data != updateCode) {
-      // If update code is not matching, show update dialog
-      showUpdateDialog(context);
-      // If update code fetching problem, show error in toast
-      if (serverUpdateCode.status != Status.success) Helper.showToast(serverUpdateCode.message!, Colors.red);
+    // For checking internet connection
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.mobile || connectivityResult == ConnectivityResult.wifi) {
+      Result<int> serverUpdateCode = await FirebaseService.getUpdateCode();
+      if (serverUpdateCode.data == updateCode) {
+        loadFromFirebase(context);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      } else {
+        // If update code is not matching, show update dialog
+        showUpdateDialog(context, 'Update is available', 'Please update to latest version');
+        // If update code fetching problem, show error in toast
+        if (serverUpdateCode.status != Status.success) Helper.showToast(serverUpdateCode.message!, Colors.red);
+      }
     } else {
-      loadFromFirebase(context);
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
+      // If not connected network
+      showUpdateDialog(context, 'Connection problem', 'Please check your internet connection');
     }
   }
 
@@ -32,13 +39,13 @@ class SplashProvider extends ChangeNotifier {
     Provider.of<UsersProvider>(context, listen: false).loadUsers();
   }
 
-  void showUpdateDialog(BuildContext context) {
+  void showUpdateDialog(BuildContext context, String title, String message) {
     showDialog(
       context: context,
       barrierDismissible: false,
       builder: (ctx) => AlertDialog(
-        title: const Text('Update is available'),
-        content: const Text('Please update to latest version'),
+        title: Text(title),
+        content: Text(message),
         actions: [
           ElevatedButton(
             onPressed: () => SystemNavigator.pop(),
