@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               }
             },
           )),
-      backgroundColor: backgroundColor,
+      backgroundColor: DefaultColors.backgroundColor,
       body: Consumer<ProductsProvider>(
         builder: (ctx, provider, child) {
           List<Product> products = provider.products;

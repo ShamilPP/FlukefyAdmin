@@ -14,7 +14,7 @@ class UsersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: DefaultColors.backgroundColor,
       appBar: const CurvedAppBar(
         title: 'Users',
       ),

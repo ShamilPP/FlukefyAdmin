@@ -2,6 +2,7 @@ import 'package:flukefy_admin/model/user.dart';
 import 'package:flukefy_admin/view_model/utils/helper.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 import '../../../animations/slide_animation.dart';
 
@@ -50,7 +51,7 @@ class UserCard extends StatelessWidget {
                 SlideAnimation(
                   delay: 500,
                   child: Text(
-                    Helper.dateCovertToString(date: user.lastLoggedTime, type: DateConvert.lastseen),
+                    Helper.getLastSeenFromDate(user.lastLoggedTime),
                     style: TextStyle(fontSize: 11, color: Colors.grey.shade800),
                   ),
                 ),
@@ -88,7 +89,7 @@ class UserCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7),
                   child: Text(
-                    'Last seen : ${Helper.dateCovertToString(date: user.lastLoggedTime, type: DateConvert.lastseen)}',
+                    'Last seen : ${DateFormat('E, MMM d').format(user.lastLoggedTime)}',
                   ),
                 ),
               ),
@@ -97,7 +98,7 @@ class UserCard extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 7),
                   child: Text(
-                    'Joined date : ${Helper.dateCovertToString(date: user.createdTime, type: DateConvert.normal)}',
+                    'Joined date : ${DateFormat('E, MMM d').format(user.createdTime)}',
                     style: const TextStyle(fontSize: 17),
                   ),
                 ),
@@ -108,15 +109,22 @@ class UserCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    ElevatedButton.icon(
+                    FilledButton.icon(
                       onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
                       icon: const Icon(Icons.block),
                       label: const Text('Block'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
-                    ElevatedButton.icon(
+                    const SizedBox(width: 10),
+                    FilledButton.icon(
                       onPressed: () => Fluttertoast.showToast(msg: 'Coming soon'),
                       icon: const Icon(Icons.delete_outline),
                       label: const Text('Delete'),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                     ),
                   ],
                 ),

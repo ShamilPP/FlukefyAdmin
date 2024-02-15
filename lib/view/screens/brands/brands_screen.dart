@@ -20,7 +20,7 @@ class BrandsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: DefaultColors.backgroundColor,
       appBar: const CurvedAppBar(title: 'Brands'),
       body: Consumer<BrandsProvider>(
         builder: (ctx, provider, child) {

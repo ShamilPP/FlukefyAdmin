@@ -18,7 +18,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: primaryColor,
+        color: DefaultColors.primaryColor,
         borderRadius: const BorderRadius.vertical(bottom: Radius.circular(30)),
         boxShadow: elevation
             ? [
@@ -43,7 +43,7 @@ class CurvedAppBar extends StatelessWidget implements PreferredSizeWidget {
                 child: backButton
                     ? ClipOval(
                         child: Material(
-                          color: primaryColor,
+                          color: DefaultColors.primaryColor,
                           child: IconButton(
                             splashColor: Colors.grey,
                             icon: const Icon(

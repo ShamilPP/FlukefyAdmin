@@ -102,10 +102,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
                 delay: 1000,
                 child: RoundedLoadingButton(
                   controller: buttonController,
-                  color: primaryColor,
+                  color: DefaultColors.primaryColor,
                   successColor: Colors.green,
                   onPressed: uploadProduct,
-                  child: Text(widget.isUpdateProduct ? 'Update' : 'Upload'),
+                  child: Text(
+                    widget.isUpdateProduct ? 'Update' : 'Upload',
+                    style: const TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
             ),
